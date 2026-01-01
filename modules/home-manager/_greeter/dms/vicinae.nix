@@ -1,8 +1,8 @@
 # Vicinae launcher configuration with Matugen theming
 {
+  arrozInputs,
   config,
   pkgs,
-  inputs,
   lib,
   ...
 }:
@@ -37,12 +37,10 @@ let
   '';
 in
 {
-  imports = [ inputs.vicinae.homeManagerModules.default ];
+  imports = [ arrozInputs.vicinae.homeManagerModules.default ];
 
   services.vicinae = lib.mkIf cfg.enable {
     enable = lib.mkDefault true;
-    autoStart = lib.mkDefault true;
-    useLayerShell = lib.mkDefault false;
   };
 
   # Override systemd service environment

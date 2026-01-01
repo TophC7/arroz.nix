@@ -9,8 +9,8 @@
 # Any greeter (DMS, tuigreet, GDM) can launch Hyprland via the session command.
 #
 {
+  arrozInputs,
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -18,7 +18,7 @@
 
 let
   system = pkgs.stdenv.hostPlatform.system;
-  hyprlandPackage = inputs.hyprland.packages.${system}.hyprland;
+  hyprlandPackage = arrozInputs.hyprland.packages.${system}.hyprland;
 
   # ── Session Script ──
   # Modeled after niri-session: proper systemd service lifecycle management
@@ -85,56 +85,7 @@ let
   };
 in
 {
-  # ══════════════════════════════════════════════════════════════════════════
-  # Systemd User Service
-  # ══════════════════════════════════════════════════════════════════════════
-  systemd.user.services.hyprland = {
-    description = "Hyprland - A dynamic tiling Wayland compositor";
-    bindsTo = [ "graphical-session.target" ];
-    before = [
-      "graphical-session.target"
-      "xdg-desktop-autostart.target"
-    ];
-    wants = [
-      "graphical-session-pre.target"
-      "xdg-desktop-autostart.target"
-    ];
-    after = [ "graphical-session-pre.target" ];
-    serviceConfig = {
-      Type = "notify";
-      NotifyAccess = "all";
-      Slice = "session.slice";
-      ExecStart = "${hyprlandPackage}/bin/start-hyprland";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
-  };
-
-  # ══════════════════════════════════════════════════════════════════════════
-  # Shutdown Target
-  # ══════════════════════════════════════════════════════════════════════════
-  systemd.user.targets.hyprland-shutdown = {
-    description = "Shutdown Hyprland session";
-    conflicts = [
-      "graphical-session.target"
-      "graphical-session-pre.target"
-    ];
-    after = [
-      "graphical-session.target"
-      "graphical-session-pre.target"
-    ];
-  };
-
-  # ══════════════════════════════════════════════════════════════════════════
-  # Session Registration
-  # ══════════════════════════════════════════════════════════════════════════
-  services.displayManager.sessionPackages = [ desktopEntry ];
-  environment.systemPackages = [ desktopEntry ];
-
-  # ══════════════════════════════════════════════════════════════════════════
   # Export session interface for greeters
-  # ══════════════════════════════════════════════════════════════════════════
   options._hyprlandSession = lib.mkOption {
     type = lib.types.attrs;
     default = {
@@ -145,5 +96,48 @@ in
     };
     internal = true;
     description = "Hyprland session components for use by greeter modules";
+  };
+
+  config = {
+    # Systemd User Service
+    systemd.user.services.hyprland = {
+      description = "Hyprland - A dynamic tiling Wayland compositor";
+      bindsTo = [ "graphical-session.target" ];
+      before = [
+        "graphical-session.target"
+        "xdg-desktop-autostart.target"
+      ];
+      wants = [
+        "graphical-session-pre.target"
+        "xdg-desktop-autostart.target"
+      ];
+      after = [ "graphical-session-pre.target" ];
+      serviceConfig = {
+        Type = "notify";
+        NotifyAccess = "all";
+        Slice = "session.slice";
+        ExecStart = "${hyprlandPackage}/bin/start-hyprland";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
+
+    # Shutdown Target
+    systemd.user.targets.hyprland-shutdown = {
+      description = "Shutdown Hyprland session";
+      conflicts = [
+        "graphical-session.target"
+        "graphical-session-pre.target"
+      ];
+      after = [
+        "graphical-session.target"
+        "graphical-session-pre.target"
+      ];
+    };
+
+    # Session Registration
+    services.displayManager.sessionPackages = [ desktopEntry ];
+    environment.systemPackages = [ desktopEntry ];
   };
 }

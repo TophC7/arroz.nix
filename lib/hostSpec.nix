@@ -1,6 +1,7 @@
 # arroz.nix Host Spec Extension
 #
 # Extends mix.nix host spec with desktop environment and greeter options.
+# Used via mix.hostSpecExtensions for composable type extension.
 #
 # Usage:
 #   mix.hosts.myhost = {
@@ -12,9 +13,9 @@
 #     };
 #   };
 #
-{ lib }:
+{ lib, ... }:
 
-lib.hosts.mkHostSpec {
+{
   options = {
     # ─────────────────────────────────────────────────────────────
     # DESKTOP ENVIRONMENTS

@@ -11,9 +11,7 @@
 }:
 
 {
-  # ══════════════════════════════════════════════════════════════════════════
   # Common Packages
-  # ══════════════════════════════════════════════════════════════════════════
   environment.systemPackages = lib.mkDefault (
     with pkgs;
     [
@@ -40,26 +38,20 @@
     ]
   );
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Audio (PipeWire)
-  # ══════════════════════════════════════════════════════════════════════════
   services.pipewire = {
     enable = lib.mkDefault true;
     pulse.enable = lib.mkDefault true;
     wireplumber.enable = lib.mkDefault true;
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Networking
-  # ══════════════════════════════════════════════════════════════════════════
   programs.nm-applet = {
     enable = lib.mkDefault true;
     indicator = lib.mkDefault true; # AppIndicator mode (better for Wayland)
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # DDC/CI Brightness Control (external monitors)
-  # ══════════════════════════════════════════════════════════════════════════
   hardware.i2c.enable = lib.mkDefault true;
 
   services.udev.extraRules = lib.mkDefault ''
@@ -69,15 +61,11 @@
 
   users.users.${host.user.name}.extraGroups = lib.mkDefault [ "video" ];
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Security & Authentication
-  # ══════════════════════════════════════════════════════════════════════════
   security.polkit.enable = lib.mkDefault true;
   services.gnome.gnome-keyring.enable = lib.mkDefault true;
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Environment Variables
-  # ══════════════════════════════════════════════════════════════════════════
   environment.sessionVariables = {
     _JAVA_AWT_WM_NONREPARENTING = lib.mkDefault "1"; # Java apps
     MOZ_ENABLE_WAYLAND = lib.mkDefault "1"; # Firefox
@@ -86,9 +74,7 @@
     SDL_VIDEODRIVER = lib.mkDefault "wayland"; # SDL apps
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Location & Power
-  # ══════════════════════════════════════════════════════════════════════════
   services.geoclue2.enable = lib.mkDefault true;
 
   services.logind.settings.Login = {
@@ -96,9 +82,7 @@
     HandleLidSwitchExternalPower = lib.mkDefault "lock";
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Font Rendering
-  # ══════════════════════════════════════════════════════════════════════════
   fonts.fontconfig = {
     enable = lib.mkDefault true;
     antialias = lib.mkDefault true;

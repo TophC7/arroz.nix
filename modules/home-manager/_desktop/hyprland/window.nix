@@ -10,24 +10,18 @@
     # Window rules (0.53+ syntax with match: prefix)
     windowrule = lib.mkDefault [
       #
-      # ══════════════════════════════════════════════════════════════════════════
       # QUICKSHELL / DMS PANELS (Settings, System Monitor, Add Widget)
-      # ══════════════════════════════════════════════════════════════════════════
       #
       "float on, match:class ^(org\\.quickshell)$"
       "size 40% 60%, match:class ^(org\\.quickshell)$, match:title ^(Settings|System Monitor|Add Widget)$"
 
       #
-      # ══════════════════════════════════════════════════════════════════════════
       # CODE EDITORS
-      # ══════════════════════════════════════════════════════════════════════════
       #
       "size 65% 100%, match:class ^(code-url-handler|code|Code)$"
 
       #
-      # ══════════════════════════════════════════════════════════════════════════
       # BROWSERS
-      # ══════════════════════════════════════════════════════════════════════════
       #
       "size 65% 100%, match:class ^(firefox|zen-alpha|zen-beta|zen)$"
 
@@ -36,9 +30,7 @@
       "size 20% 40%, match:title ^(Extension:.*)$"
 
       #
-      # ══════════════════════════════════════════════════════════════════════════
       # COMMUNICATION APPS (Discord, Vesktop, Telegram)
-      # ══════════════════════════════════════════════════════════════════════════
       #
       "size 100% 100%, match:class ^(discord|vesktop)$"
       "size 100% 100%, match:class ^(org\\.telegram\\.desktop|TelegramDesktop)$"
@@ -46,9 +38,7 @@
       "monitor DP-5, match:class ^(org\\.telegram\\.desktop|TelegramDesktop)$"
 
       #
-      # ══════════════════════════════════════════════════════════════════════════
       # FILE MANAGER & TERMINAL
-      # ══════════════════════════════════════════════════════════════════════════
       #
       "float on, match:class ^(org\\.gnome\\.Nautilus)$"
       "size 40% 40%, match:class ^(org\\.gnome\\.Nautilus)$"
@@ -58,17 +48,13 @@
       "size 40% 40%, match:title ^(ghostty)$"
 
       #
-      # ══════════════════════════════════════════════════════════════════════════
       # GAMING
-      # ══════════════════════════════════════════════════════════════════════════
       #
       "fullscreen on, match:class ^(\\.gamescope-wrapped|steam_app_.*)$"
       "immediate on, match:class ^(\\.gamescope-wrapped|steam_app_.*)$"
 
       #
-      # ══════════════════════════════════════════════════════════════════════════
       # COMMON DIALOGS
-      # ══════════════════════════════════════════════════════════════════════════
       #
       "float on, match:title ^(Open|Save|File|Folder).*$"
       "float on, match:title ^(Open File|Save File|Save As).*$"

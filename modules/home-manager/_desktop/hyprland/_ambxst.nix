@@ -6,14 +6,16 @@
 #
 # NOTE: This file is prefixed with _ to exclude from auto-discovery.
 # Import explicitly if you want to use Ambxst.
+#
 {
-  inputs,
+  arrozInputs,
   lib,
   pkgs,
   ...
 }:
 let
-  ambxst = inputs.ambxst.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  system = pkgs.stdenv.hostPlatform.system;
+  ambxst = arrozInputs.ambxst.packages.${system}.default;
 in
 {
   # Install Ambxst package with lower priority to avoid conflicts

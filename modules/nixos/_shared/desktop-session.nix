@@ -52,9 +52,7 @@ let
   hasAnyDesktop = enabled != [ ];
 in
 {
-  # ══════════════════════════════════════════════════════════════════════════
   # Desktop Default Validation (applies to all hosts with desktops)
-  # ══════════════════════════════════════════════════════════════════════════
   assertions = lib.mkIf hasAnyDesktop [
     {
       assertion = lib.length enabled <= 1 || lib.length defaults == 1;
@@ -80,9 +78,7 @@ in
     }
   ];
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Set default session for display managers
-  # ══════════════════════════════════════════════════════════════════════════
   services.displayManager.defaultSession = lib.mkIf (defaultDesktop != null) (
     lib.mkDefault defaultDesktop.session
   );

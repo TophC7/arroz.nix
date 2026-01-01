@@ -1,8 +1,8 @@
 # DankMaterialShell - Unified configuration for niri and hyprland
 # Automatically applies compositor-specific settings based on host.desktop
 {
+  arrozInputs,
   host,
-  inputs,
   lib,
   pkgs,
   ...
@@ -10,29 +10,26 @@
 
 let
   desktop = host.desktop or { };
+  system = pkgs.stdenv.hostPlatform.system;
 
   # Compositor detection
   isNiri = desktop.niri.enable or false;
   isHyprland = desktop.hyprland.enable or false;
 
-  # DMS shell package for Hyprland exec-once
-  dms-shell = inputs.dankMaterialShell.packages.${pkgs.stdenv.hostPlatform.system}.dms-shell;
-
   # Import plugin definitions
   plugins = import ./_plugins.nix { inherit lib pkgs; };
 in
 {
-  # Import DankMaterialShell modules - base + compositor-specific + vicinae
-  imports = lib.flatten [
-    inputs.dankMaterialShell.homeModules.dank-material-shell
-    (lib.optional isNiri inputs.dankMaterialShell.homeModules.dankMaterialShell.niri)
+  imports = [
+    arrozInputs.dankMaterialShell.homeModules.dank-material-shell
+    arrozInputs.dankMaterialShell.homeModules.niri
     ./vicinae.nix
   ];
 
   # DankMaterialShell base configuration
   programs.dank-material-shell = {
     enable = lib.mkDefault true;
-    quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    quickshell.package = arrozInputs.quickshell.packages.${system}.default;
 
     # Core features
     enableSystemMonitoring = lib.mkDefault true; # System monitoring widgets (dgop)
@@ -67,11 +64,9 @@ in
     niri.enableSpawn = true;
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Hyprland DMS Startup
-  # ══════════════════════════════════════════════════════════════════════════
   # Simple exec-once, same approach as Niri's enableSpawn
   wayland.windowManager.hyprland.settings.exec-once = lib.mkIf isHyprland [
-    "${dms-shell}/bin/dms run"
+    "${arrozInputs.dankMaterialShell.packages.${system}.dms-shell}/bin/dms run"
   ];
 }

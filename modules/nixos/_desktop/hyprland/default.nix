@@ -1,13 +1,12 @@
 # Hyprland Compositor NixOS Configuration
 {
-  inputs,
+  arrozInputs,
   lib,
   pkgs,
   ...
 }:
 let
   system = pkgs.stdenv.hostPlatform.system;
-  hyprlandPackage = inputs.hyprland.packages.${system}.hyprland;
 in
 {
   imports = [
@@ -15,20 +14,16 @@ in
   ]
   ++ lib.fs.scanPaths ./.;
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Hyprland Compositor
-  # ══════════════════════════════════════════════════════════════════════════
   programs.hyprland = {
     enable = lib.mkDefault true;
     withUWSM = lib.mkDefault false;
     xwayland.enable = lib.mkDefault true;
-    package = hyprlandPackage;
-    portalPackage = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
+    package = arrozInputs.hyprland.packages.${system}.hyprland;
+    portalPackage = arrozInputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Hyprland Cachix
-  # ══════════════════════════════════════════════════════════════════════════
   nix.settings = {
     substituters = lib.mkDefault [ "https://hyprland.cachix.org" ];
     trusted-public-keys = lib.mkDefault [
@@ -36,16 +31,12 @@ in
     ];
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Hyprland-specific Packages
-  # ══════════════════════════════════════════════════════════════════════════
   environment.systemPackages = with pkgs; [
     cliphist # Clipboard manager for Hyprland
   ];
 
-  # ══════════════════════════════════════════════════════════════════════════
   # XDG Portal (Hyprland-specific)
-  # ══════════════════════════════════════════════════════════════════════════
   xdg.portal = {
     enable = lib.mkDefault true;
     extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];

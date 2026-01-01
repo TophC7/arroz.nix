@@ -1,30 +1,26 @@
 # Niri Compositor NixOS Configuration
 {
-  inputs,
+  arrozInputs,
   lib,
   pkgs,
   ...
 }:
 {
   imports = [
-    inputs.niri.nixosModules.niri
+    arrozInputs.niri.nixosModules.niri
     ../_wayland.nix # Common Wayland infrastructure
   ]
   ++ lib.fs.scanPaths ./.;
 
-  nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+  nixpkgs.overlays = [ arrozInputs.niri.overlays.niri ];
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Niri Compositor
-  # ══════════════════════════════════════════════════════════════════════════
   programs.niri = {
     enable = lib.mkDefault true;
     package = lib.mkDefault pkgs.niri-unstable;
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # XDG Portal (Niri-specific)
-  # ══════════════════════════════════════════════════════════════════════════
   xdg.portal = {
     enable = lib.mkDefault true;
     extraPortals = with pkgs; [
@@ -47,9 +43,7 @@
     };
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Niri-specific Overrides
-  # ══════════════════════════════════════════════════════════════════════════
   # DMS handles polkit agent - disable niri-flake's built-in to avoid conflicts
   systemd.user.services.niri-flake-polkit.enable = lib.mkDefault false;
 }

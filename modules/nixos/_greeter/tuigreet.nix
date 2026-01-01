@@ -4,9 +4,9 @@
 # Works with all desktop environments.
 #
 {
+  arrozInputs,
   config,
   host,
-  inputs,
   lib,
   pkgs,
   ...
@@ -18,8 +18,7 @@ let
   system = pkgs.stdenv.hostPlatform.system;
 
   # ── Session Commands ──
-  niriPackage = inputs.niri.packages.${system}.niri-unstable;
-
+  niriPackage = arrozInputs.niri.packages.${system}.niri-unstable;
   sessionCommands = {
     hyprland-systemd = config._hyprlandSession.command;
     niri = "${niriPackage}/bin/niri-session";
@@ -31,10 +30,8 @@ let
   sessionCommand = sessionCommands.${defaultSession} or "bash";
 in
 {
-  # ══════════════════════════════════════════════════════════════════════════
   # TUIgreet-specific Assertions
   # (Default validation is handled by _shared/desktop-session.nix)
-  # ══════════════════════════════════════════════════════════════════════════
   assertions = [
     {
       assertion =
@@ -45,9 +42,7 @@ in
     }
   ];
 
-  # ══════════════════════════════════════════════════════════════════════════
   # Greetd Configuration
-  # ══════════════════════════════════════════════════════════════════════════
   services.greetd = {
     enable = true;
     settings = {
@@ -64,8 +59,6 @@ in
     };
   };
 
-  # ══════════════════════════════════════════════════════════════════════════
   # System Packages
-  # ══════════════════════════════════════════════════════════════════════════
   environment.systemPackages = [ pkgs.tuigreet ];
 }

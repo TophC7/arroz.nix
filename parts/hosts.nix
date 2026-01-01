@@ -1,10 +1,21 @@
 # arroz.nix hosts flake-parts module
 #
-# Wraps mix.nix's hosts module with arroz's extended host spec
-# and auto-injects arroz modules into coreModules/coreHomeModules.
+# Extends mix.nix with desktop/greeter options and auto-injects arroz modules.
+# Uses mix.hostSpecExtensions for composable type extension.
+#
+# External flake inputs (niri, hyprland, etc.) are:
+# - NixOS/HM modules: imported directly here
+# - Packages: accessed via arrozInputs (passed to modules via _module.args)
+#
+# This file is a function that receives arrozInputs (arroz.nix's flake inputs)
+# and returns a flake-parts module. This allows arroz's inputs to be captured
+# in the closure, making them available even when imported by consumer flakes.
 #
 # Usage:
-#   imports = [ inputs.arroz-nix.flakeModules.default ];
+#   imports = [
+#     inputs.mix-nix.flakeModules.default
+#     inputs.arroz-nix.flakeModules.default
+#   ];
 #
 #   mix.hosts.myhost = {
 #     user = "toph";
@@ -12,30 +23,19 @@
 #     greeter.type = "dms";
 #   };
 #
-{ inputs, lib, ... }:
-
-let
-  # Extended host spec with desktop/greeter options
-  arrozHostSpec = import ../lib/hostSpec.nix { inherit lib; };
-in
+{ arrozInputs }:
 {
-  imports = [
-    # Wrap mix-nix hosts module with our extended spec type
-    # Import the path first to get the factory function, then call it
-    ((import inputs.mix-nix.flakeModules.hosts) {
-      hostSpecType = arrozHostSpec;
-    })
-  ];
-
-  # Auto-inject arroz modules into coreModules/coreHomeModules
-  # Consumers don't need to manually import modules - they load automatically
-  # The modules use host.desktop.* and host.greeter.* to conditionally enable features
   config.mix = {
+    hostSpecExtensions = [ ../lib/hostSpec.nix ];
+
     coreModules = [
-      ../modules/nixos # NixOS desktop/greeter modules
+      { _module.args.arrozInputs = arrozInputs; }
+      ../modules/nixos
     ];
+
     coreHomeModules = [
-      ../modules/home-manager # Home Manager desktop/greeter modules
+      { _module.args.arrozInputs = arrozInputs; }
+      ../modules/home-manager
     ];
   };
 }

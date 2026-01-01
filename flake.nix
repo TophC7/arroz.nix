@@ -97,7 +97,7 @@
         specialArgs = { inherit lib; };
       }
       {
-        imports = [ ./parts ];
+        imports = [ (import ./parts { arrozInputs = inputs; }) ];
 
         systems = [
           "x86_64-linux"
@@ -106,5 +106,13 @@
 
         # Expose extended lib as flake output
         flake.lib = lib;
+      }
+    # Direct flake outputs - bypass flake-parts to avoid conflicts with mix.nix
+    # Capture arroz's inputs in closures so they're available when imported by consumers
+    // {
+      flakeModules = {
+        default = import ./parts/default.nix { arrozInputs = inputs; };
+        hosts = import ./parts/hosts.nix { arrozInputs = inputs; };
       };
+    };
 }
