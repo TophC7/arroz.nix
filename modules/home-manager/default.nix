@@ -13,9 +13,9 @@ let
   desktopNames = [ "gnome" "hyprland" "niri" ];
   hasDesktop = lib.any (name: desktop.${name}.enable or false) desktopNames;
 
-  # DMS home config only needed for hyprland/niri (not GNOME)
-  hasDmsDesktop = lib.any (name: desktop.${name}.enable or false) [ "hyprland" "niri" ];
-  needsDmsHome = (greeter.type or null == "dms") && hasDmsDesktop;
+  # DMS shell (panel/widgets) is used with hyprland/niri (not GNOME)
+  # This is separate from greeter.type - DMS shell runs regardless of greeter choice
+  needsDmsShell = lib.any (name: desktop.${name}.enable or false) [ "hyprland" "niri" ];
 in
 {
   imports = lib.flatten [
@@ -24,9 +24,9 @@ in
     (lib.optional (desktop.hyprland.enable or false) ./_desktop/hyprland)
     (lib.optional (desktop.niri.enable or false) ./_desktop/niri)
 
-    # ── Greeters ──
-    # DMS has home-manager config (Quickshell, Vicinae, etc.)
-    (lib.optional needsDmsHome ./_greeter/dms)
+    # ── DMS Shell ──
+    # DMS shell (panel/widgets) for Hyprland/Niri
+    (lib.optional needsDmsShell ./_shell/dms)
 
     # ── Shared ──
     # Only loaded when any desktop is enabled

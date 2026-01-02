@@ -113,10 +113,9 @@ in
       ];
       after = [ "graphical-session-pre.target" ];
       serviceConfig = {
-        Type = "notify";
-        NotifyAccess = "all";
+        Type = "simple";
         Slice = "session.slice";
-        ExecStart = "${hyprlandPackage}/bin/start-hyprland";
+        ExecStart = "${hyprlandPackage}/bin/Hyprland";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;

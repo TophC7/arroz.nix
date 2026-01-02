@@ -131,6 +131,7 @@ in
       misc = {
         force_default_wallpaper = lib.mkDefault 0;
         disable_hyprland_logo = lib.mkDefault true;
+        disable_watchdog_warning = lib.mkDefault true;
       };
 
       # XWayland settings
