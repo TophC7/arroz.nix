@@ -28,14 +28,10 @@
   config.mix = {
     hostSpecExtensions = [ ../lib/hostSpec.nix ];
 
-    coreModules = [
-      { _module.args.arrozInputs = arrozInputs; }
-      ../modules/nixos
-    ];
+    # specialArgs available before module evaluation (no infinite recursion)
+    specialArgs = { inherit arrozInputs; };
 
-    coreHomeModules = [
-      { _module.args.arrozInputs = arrozInputs; }
-      ../modules/home-manager
-    ];
+    coreModules = [ ../modules/nixos ];
+    coreHomeModules = [ ../modules/home-manager ];
   };
 }

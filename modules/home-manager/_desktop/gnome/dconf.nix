@@ -1,11 +1,6 @@
 # GNOME dconf settings
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{
-  lib,
-  pkgs,
-  inputs,
-  ...
-}:
+{ lib, ... }:
 
 with lib.hm.gvariant;
 
@@ -292,17 +287,12 @@ with lib.hm.gvariant;
         "user-theme@gnome-shell-extensions.gcampax.github.com"
         "Vitals@CoreCoding.com"
       ];
-      favorite-apps =
-        let
-          zen-browser =
-            inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta.meta.desktopFileName or "zen-browser.desktop";
-        in
-        lib.mkDefault [
-          "com.mitchellh.ghostty.desktop"
-          "org.gnome.Nautilus.desktop"
-          zen-browser
-          "code.desktop"
-        ];
+      favorite-apps = lib.mkDefault [
+        "com.mitchellh.ghostty.desktop"
+        "org.gnome.Nautilus.desktop"
+        "firefox.desktop"
+        "code.desktop"
+      ];
       last-selected-power-profile = lib.mkDefault "performance";
     };
 

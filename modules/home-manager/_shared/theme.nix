@@ -10,9 +10,9 @@
 #   - theme.generated.base16Scheme (read-only output)
 #
 {
+  arrozInputs,
   config,
   lib,
-  inputs,
   ...
 }:
 let
@@ -20,8 +20,8 @@ let
 in
 {
   imports = [
-    inputs.stylix.homeModules.stylix
-    inputs.mix-nix.homeManagerModules.theme
+    arrozInputs.stylix.homeModules.stylix
+    arrozInputs.mix-nix.homeManagerModules.theme
   ];
 
   config = lib.mkIf cfg.enable {

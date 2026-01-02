@@ -27,19 +27,13 @@
       xdg-desktop-portal-gtk # GTK file picker
       xdg-desktop-portal-gnome # GNOME apps compatibility
     ];
-    config = {
-      niri = {
-        default = lib.mkDefault [
-          "gnome"
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.Screenshot" = lib.mkDefault [ "gnome" ];
-        "org.freedesktop.impl.portal.Screencast" = lib.mkDefault [ "gnome" ];
-      };
-      common.default = lib.mkDefault [
+    config.niri = {
+      default = lib.mkDefault [
         "gnome"
         "gtk"
       ];
+      "org.freedesktop.impl.portal.Screenshot" = lib.mkDefault [ "gnome" ];
+      "org.freedesktop.impl.portal.Screencast" = lib.mkDefault [ "gnome" ];
     };
   };
 

@@ -1,10 +1,5 @@
 # Niri keybindings
-{
-  inputs,
-  lib,
-  pkgs,
-  ...
-}:
+{ lib, pkgs, ... }:
 {
   programs.niri = {
     settings = {
@@ -12,30 +7,26 @@
         mod-key = "Super";
         mod-key-nested = "Alt";
       };
-      binds =
-        let
-          zen-browser = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta or pkgs.firefox;
-        in
-        lib.mkDefault {
-          # Application launchers
-          "Mod+T".action.spawn = lib.getExe pkgs.ghostty;
-          "Mod+E".action.spawn = lib.getExe pkgs.vscode;
-          "Mod+W".action.spawn = lib.getExe zen-browser;
-          "Mod+F".action.spawn = lib.getExe pkgs.nautilus;
+      binds = lib.mkDefault {
+        # Application launchers
+        "Mod+T".action.spawn = lib.getExe pkgs.ghostty;
+        "Mod+E".action.spawn = lib.getExe pkgs.vscode;
+        "Mod+W".action.spawn = lib.getExe pkgs.firefox;
+        "Mod+F".action.spawn = lib.getExe pkgs.nautilus;
 
-          "Mod+Space".action.spawn = [
-            "vicinae"
-            "toggle"
-          ]; # Application launcher
+        "Mod+Space".action.spawn = [
+          "vicinae"
+          "toggle"
+        ]; # Application launcher
 
-          "Mod+A".action.spawn = [
-            "dms"
-            "ipc"
-            "notifications"
-            "toggle"
-          ]; # Notification center
+        "Mod+A".action.spawn = [
+          "dms"
+          "ipc"
+          "notifications"
+          "toggle"
+        ]; # Notification center
 
-          "Mod+Comma".action.spawn = [
+        "Mod+Comma".action.spawn = [
             "dms"
             "ipc"
             "settings"

@@ -1,13 +1,14 @@
 # Hyprland Home Manager Configuration
 {
+  arrozInputs,
   config,
-  inputs,
   lib,
   pkgs,
   ...
 }:
 let
-  hyprscrolling = inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprscrolling;
+  system = pkgs.stdenv.hostPlatform.system;
+  hyprscrolling = arrozInputs.hyprland-plugins.packages.${system}.hyprscrolling;
 in
 {
   imports = lib.fs.scanPaths ./.;
@@ -155,7 +156,7 @@ in
           position = "${toString m.x}x${toString m.y}";
           scale = toString m.scale;
           transform = toString m.transform;
-          vrr = if m.vrr or false then ",vrr,1" else "";
+          vrr = if (m.vrr or false) != false then ",vrr,1" else "";
         in
         "${m.name},${
           if m.enabled then "${resolution},${position},${scale},transform,${transform}${vrr}" else "disable"

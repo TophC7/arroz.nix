@@ -743,14 +743,17 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1767303038,
-        "narHash": "sha256-Fa4Ae0OgGTh3ISGsUaj0v5z5fjr35ay/ctTzjYNhOh0=",
-        "path": "/repo/Nix/mix.nix",
-        "type": "path"
+        "lastModified": 1767306918,
+        "narHash": "sha256-JHvJ3+El6GQXR8TUEoYGZq4cAcvGhT3zcHj3g/EQ0lY=",
+        "owner": "tophc7",
+        "repo": "mix.nix",
+        "rev": "0380eac2ce38cada23b519a2bf0a502620920813",
+        "type": "github"
       },
       "original": {
-        "path": "/repo/Nix/mix.nix",
-        "type": "path"
+        "owner": "tophc7",
+        "repo": "mix.nix",
+        "type": "github"
       }
     },
     "niri": {

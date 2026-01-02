@@ -40,15 +40,6 @@ in
   xdg.portal = {
     enable = lib.mkDefault true;
     extraPortals = lib.mkDefault [ pkgs.xdg-desktop-portal-gtk ];
-    config = {
-      hyprland.default = lib.mkDefault [
-        "hyprland"
-        "gtk"
-      ];
-      common.default = lib.mkDefault [
-        "hyprland"
-        "gtk"
-      ];
-    };
+    config.hyprland.default = lib.mkDefault [ "hyprland" "gtk" ];
   };
 }
