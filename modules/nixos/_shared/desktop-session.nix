@@ -21,7 +21,7 @@ let
       name = "hyprland";
       enabled = desktop.hyprland.enable or false;
       isDefault = desktop.hyprland.default or false;
-      session = "hyprland-systemd"; # Custom session with systemd lifecycle
+      session = "hyprland-uwsm"; # UWSM-managed session
     }
     {
       name = "niri";

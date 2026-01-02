@@ -20,7 +20,7 @@ let
   # ── Session Commands ──
   niriPackage = arrozInputs.niri.packages.${system}.niri-unstable;
   sessionCommands = {
-    hyprland-systemd = config._hyprlandSession.command;
+    hyprland-uwsm = config._hyprlandSession.command;
     niri = "${niriPackage}/bin/niri-session";
     gnome = "gnome-session"; # Provided by GNOME, in PATH
   };

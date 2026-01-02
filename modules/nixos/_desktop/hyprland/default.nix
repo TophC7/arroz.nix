@@ -17,7 +17,7 @@ in
   # Hyprland Compositor
   programs.hyprland = {
     enable = lib.mkDefault true;
-    withUWSM = lib.mkDefault false;
+    withUWSM = lib.mkDefault true; # Use UWSM for proper session/environment management
     xwayland.enable = lib.mkDefault true;
     package = arrozInputs.hyprland.packages.${system}.hyprland;
     portalPackage = arrozInputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
