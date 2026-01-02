@@ -33,10 +33,13 @@
   # Copyous extension dependencies - expose GI typelibs to GNOME Shell
   # Extensions run inside gnome-shell's GJS engine, so deps must be in session env
   environment.sessionVariables.GI_TYPELIB_PATH = lib.mkDefault (
-    lib.concatMapStringsSep ":" (pkg: "${pkg}/lib/girepository-1.0") (with pkgs; [
-      libgda6 # Database access for clipboard history
-      gsound # Sound notifications
-    ])
+    lib.concatMapStringsSep ":" (pkg: "${pkg}/lib/girepository-1.0") (
+      with pkgs;
+      [
+        libgda6 # Database access for clipboard history
+        gsound # Sound notifications
+      ]
+    )
   );
 
   environment.systemPackages = with pkgs; [
@@ -45,7 +48,6 @@
     eloquent # Spell checker
     resources
     cartridges
-    nautilus-python
     gnomeExtensions.alphabetical-app-grid
     gnomeExtensions.appindicator
     gnomeExtensions.auto-accent-colour
