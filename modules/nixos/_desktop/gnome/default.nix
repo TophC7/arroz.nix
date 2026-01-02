@@ -30,6 +30,15 @@
     udev.packages = lib.mkDefault (with pkgs; [ gnome-settings-daemon ]);
   };
 
+  # Copyous extension dependencies - expose GI typelibs to GNOME Shell
+  # Extensions run inside gnome-shell's GJS engine, so deps must be in session env
+  environment.sessionVariables.GI_TYPELIB_PATH = lib.mkDefault (
+    lib.concatMapStringsSep ":" (pkg: "${pkg}/lib/girepository-1.0") (with pkgs; [
+      libgda6 # Database access for clipboard history
+      gsound # Sound notifications
+    ])
+  );
+
   environment.systemPackages = with pkgs; [
     gnome-tweaks
     papers # evince replacement
@@ -43,14 +52,13 @@
     gnomeExtensions.blur-my-shell
     gnomeExtensions.color-picker
     gnomeExtensions.control-monitor-brightness-and-volume-with-ddcutil
+    gnomeExtensions.copyous
     gnomeExtensions.dash-in-panel
     gnomeExtensions.flickernaut
     gnomeExtensions.just-perfection
-    gnomeExtensions.pano
-    gnomeExtensions.paperwm
     gnomeExtensions.quick-settings-audio-devices-hider
     gnomeExtensions.quick-settings-audio-devices-renamer
-    gnomeExtensions.undecorate
+    gnomeExtensions.tiling-shell
     gnomeExtensions.vitals
   ];
 
