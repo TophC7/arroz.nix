@@ -41,16 +41,15 @@ in
 
   services.vicinae = lib.mkIf cfg.enable {
     enable = lib.mkDefault true;
+    systemd.enable = lib.mkDefault true;
   };
 
   # Override systemd service environment
-  systemd.user.services.vicinae = lib.mkIf config.services.vicinae.enable {
-    Service = {
-      Environment = lib.mkDefault [
+  systemd.user.services.vicinae.Service.Environment =
+    lib.mkIf config.services.vicinae.systemd.enable
+      [
         "QT_SCALE_FACTOR=1.10"
       ];
-    };
-  };
 
   # Matugen generation
   theme.matugen.templates.vicinae = lib.mkIf cfg.enable {
@@ -58,8 +57,13 @@ in
     path = ".local/share/vicinae/themes/matugen-material.toml";
   };
 
-  # FIXME: remove once https://github.com/vicinaehq/vicinae/pull/723 merges
-  xdg.configFile."vicinae/vicinae.json" = {
-    enable = false;
+  xdg.configFile = {
+    "vicinae/vicinae.json" = {
+      enable = lib.mkForce false;
+    };
+
+    "vicinae/settings.json" = {
+      enable = lib.mkForce false;
+    };
   };
 }
