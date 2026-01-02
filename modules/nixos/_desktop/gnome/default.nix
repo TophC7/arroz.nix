@@ -30,32 +30,29 @@
     udev.packages = lib.mkDefault (with pkgs; [ gnome-settings-daemon ]);
   };
 
-  environment.systemPackages = lib.mkDefault (
-    with pkgs;
-    [
-      gnome-tweaks
-      papers # evince replacement
-      eloquent # Spell checker
-      resources
-      cartridges
-      nautilus-python
-      gnomeExtensions.alphabetical-app-grid
-      gnomeExtensions.appindicator
-      gnomeExtensions.auto-accent-colour
-      gnomeExtensions.blur-my-shell
-      gnomeExtensions.color-picker
-      gnomeExtensions.control-monitor-brightness-and-volume-with-ddcutil
-      gnomeExtensions.dash-in-panel
-      gnomeExtensions.flickernaut
-      gnomeExtensions.just-perfection
-      gnomeExtensions.pano
-      gnomeExtensions.paperwm
-      gnomeExtensions.quick-settings-audio-devices-hider
-      gnomeExtensions.quick-settings-audio-devices-renamer
-      gnomeExtensions.undecorate
-      gnomeExtensions.vitals
-    ]
-  );
+  environment.systemPackages = with pkgs; [
+    gnome-tweaks
+    papers # evince replacement
+    eloquent # Spell checker
+    resources
+    cartridges
+    nautilus-python
+    gnomeExtensions.alphabetical-app-grid
+    gnomeExtensions.appindicator
+    gnomeExtensions.auto-accent-colour
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.color-picker
+    gnomeExtensions.control-monitor-brightness-and-volume-with-ddcutil
+    gnomeExtensions.dash-in-panel
+    gnomeExtensions.flickernaut
+    gnomeExtensions.just-perfection
+    gnomeExtensions.pano
+    gnomeExtensions.paperwm
+    gnomeExtensions.quick-settings-audio-devices-hider
+    gnomeExtensions.quick-settings-audio-devices-renamer
+    gnomeExtensions.undecorate
+    gnomeExtensions.vitals
+  ];
 
   ## Exclusions ##
   environment.gnome.excludePackages = lib.mkDefault (

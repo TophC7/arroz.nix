@@ -12,31 +12,28 @@
 
 {
   # Common Packages
-  environment.systemPackages = lib.mkDefault (
-    with pkgs;
-    [
-      # Wayland utilities
-      kooha # Screen recorder GUI
-      libnotify # Desktop notifications
-      wev # Event viewer for debugging keybindings
-      wf-recorder # Screen recording
-      wl-clipboard-rs # Rust clipboard utilities
+  environment.systemPackages = with pkgs; [
+    # Wayland utilities
+    kooha # Screen recorder GUI
+    libnotify # Desktop notifications
+    wev # Event viewer for debugging keybindings
+    wf-recorder # Screen recording
+    wl-clipboard-rs # Rust clipboard utilities
 
-      # Utility
-      gnome-disk-utility
-      qdirstat
+    # Utility
+    gnome-disk-utility
+    qdirstat
 
-      # Media control
-      playerctl
-      pavucontrol
-      wireplumber
+    # Media control
+    playerctl
+    pavucontrol
+    wireplumber
 
-      # Applications
-      clapper # Media player
-      eloquent # Spell checker
-      loupe # Image viewer
-    ]
-  );
+    # Applications
+    clapper # Media player
+    eloquent # Spell checker
+    loupe # Image viewer
+  ];
 
   # Audio (PipeWire)
   services.pipewire = {
