@@ -20,9 +20,9 @@ let
   plugins = import ./_plugins.nix { inherit lib pkgs; };
 in
 {
-  imports = [
+  imports = lib.flatten [
     arrozInputs.dankMaterialShell.homeModules.dank-material-shell
-    arrozInputs.dankMaterialShell.homeModules.niri
+    (lib.optional isNiri arrozInputs.dankMaterialShell.homeModules.niri)
     ./vicinae.nix
   ];
 
