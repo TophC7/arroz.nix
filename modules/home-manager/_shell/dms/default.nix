@@ -11,12 +11,7 @@
 let
   desktop = host.desktop or { };
   system = pkgs.stdenv.hostPlatform.system;
-
-  # Compositor detection
   isNiri = desktop.niri.enable or false;
-  isHyprland = desktop.hyprland.enable or false;
-
-  # Import plugin definitions
   plugins = import ./_plugins.nix { inherit lib pkgs; };
 in
 {
@@ -26,10 +21,22 @@ in
     ./vicinae.nix
   ];
 
+  # Set Qt platform theme for consistent theming
+  home.sessionVariables = {
+    QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
+  };
+
   # DankMaterialShell base configuration
   programs.dank-material-shell = {
     enable = lib.mkDefault true;
     quickshell.package = arrozInputs.quickshell.packages.${system}.default;
+
+    # Systemd service for DMS
+    systemd.enable = lib.mkDefault true;
+
+    # Default settings/session (empty for now, can be customized per-host)
+    default.settings = lib.mkDefault { };
+    default.session = lib.mkDefault { };
 
     # Core features
     enableSystemMonitoring = lib.mkDefault true; # System monitoring widgets (dgop)
@@ -58,15 +65,6 @@ in
       };
     };
 
-  }
-  // lib.optionalAttrs isNiri {
-    # Niri-specific: Auto-start DMS with niri
-    niri.enableSpawn = true;
   };
-
-  # Hyprland DMS Startup
-  # Simple exec-once, same approach as Niri's enableSpawn
-  wayland.windowManager.hyprland.settings.exec-once = lib.mkIf isHyprland [
-    "${arrozInputs.dankMaterialShell.packages.${system}.dms-shell}/bin/dms run"
-  ];
+  # DMS starts via systemd graphical-session.target - no manual spawn needed
 }

@@ -72,7 +72,6 @@
     MOZ_ENABLE_WAYLAND = lib.mkDefault "1"; # Firefox
     NIXOS_OZONE_WL = lib.mkDefault "1"; # Electron apps on Wayland
     QT_QPA_PLATFORM = lib.mkDefault "wayland"; # Qt apps
-    QT_QPA_PLATFORMTHEME = "qt6ct";
     SDL_VIDEODRIVER = lib.mkDefault "wayland"; # SDL apps
     XDG_SESSION_TYPE = lib.mkDefault "wayland";
   };
