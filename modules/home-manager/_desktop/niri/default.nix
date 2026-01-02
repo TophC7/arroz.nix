@@ -6,7 +6,10 @@
   ...
 }:
 {
-  imports = lib.fs.scanPaths ./.;
+  imports = lib.flatten [
+    (lib.fs.scanPaths ./.)
+    ../_wayland.nix
+  ];
 
   # Matugen template for Niri colors
   theme.matugen.templates.niri-colors = {

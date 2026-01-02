@@ -1,5 +1,8 @@
 # GNOME Home Manager Configuration
 { lib, ... }:
 {
-  imports = lib.fs.scanPaths ./.;
+  imports = lib.flatten [
+    (lib.fs.scanPaths ./.)
+    ../_wayland.nix
+  ];
 }

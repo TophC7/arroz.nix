@@ -11,7 +11,10 @@ let
   hyprscrolling = arrozInputs.hyprland-plugins.packages.${system}.hyprscrolling;
 in
 {
-  imports = lib.fs.scanPaths ./.;
+  imports = lib.flatten [
+    (lib.fs.scanPaths ./.)
+    ../_wayland.nix
+  ];
 
   # Hyprland home-manager configuration
   wayland.windowManager.hyprland = {
