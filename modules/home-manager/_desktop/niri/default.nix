@@ -152,15 +152,6 @@
         };
       };
 
-      environment = lib.mkDefault {
-        ELECTRON_OZONE_PLATFORM_HINT = "auto";
-        MOZ_ENABLE_WAYLAND = "1";
-        NIXOS_OZONE_WL = "1";
-        QT_QPA_PLATFORM = "wayland";
-        QT_QPA_PLATFORMTHEME = "qt6ct";
-        SDL_VIDEODRIVER = "wayland";
-      };
-
       # Screenshot configuration
       screenshot-path = lib.mkDefault "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
 

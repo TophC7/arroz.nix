@@ -141,12 +141,8 @@ in
 
       # Environment variables
       env = lib.mkDefault [
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-        "NIXOS_OZONE_WL,1"
-        "MOZ_ENABLE_WAYLAND,1"
-        "QT_QPA_PLATFORM,wayland"
-        "SDL_VIDEODRIVER,wayland"
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_DESKTOP,Hyprland"
       ];
 
       # Monitor configuration from config.monitors
