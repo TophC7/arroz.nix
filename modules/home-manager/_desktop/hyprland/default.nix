@@ -149,19 +149,27 @@ in
       ];
 
       # Monitor configuration from config.monitors
-      monitor = lib.forEach config.monitors (
-        m:
+      # Falls back to auto-detection if monitors option doesn't exist or is empty
+      monitor =
         let
-          resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
-          position = "${toString m.x}x${toString m.y}";
-          scale = toString m.scale;
-          transform = toString m.transform;
-          vrr = if (m.vrr or false) != false then ",vrr,1" else "";
+          monitors = config.monitors or [ ];
         in
-        "${m.name},${
-          if m.enabled then "${resolution},${position},${scale},transform,${transform}${vrr}" else "disable"
-        }"
-      );
+        if monitors == [ ] then
+          [ ",preferred,auto,1" ] # Auto-detect all monitors
+        else
+          lib.forEach monitors (
+            m:
+            let
+              resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+              position = "${toString m.x}x${toString m.y}";
+              scale = toString m.scale;
+              transform = toString m.transform;
+              vrr = if (m.vrr or false) != false then ",vrr,1" else "";
+            in
+            "${m.name},${
+              if m.enabled then "${resolution},${position},${scale},transform,${transform}${vrr}" else "disable"
+            }"
+          );
     };
   };
 }

@@ -165,44 +165,51 @@
       screenshot-path = lib.mkDefault "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
 
       # Outputs - dynamically configured from monitors option
+      # If monitors option doesn't exist or is empty, omit outputs for auto-detection
       outputs =
         let
-          # Convert transform number to Niri rotation (integer degrees)
-          # 0 = normal, 1 = 90° CCW, 2 = 180°, 3 = 270° CCW
-          transformToRotation =
-            t:
-            if t == 0 then
-              0
-            else if t == 1 then
-              90
-            else if t == 2 then
-              180
-            else if t == 3 then
-              270
-            else
-              0;
+          monitors = config.monitors or [ ];
         in
-        lib.listToAttrs (
-          lib.forEach config.monitors (
-            monitor:
-            lib.nameValuePair monitor.name {
-              enable = monitor.enabled;
-              mode = {
-                width = monitor.width;
-                height = monitor.height;
-                # Convert integer to float by adding 0.0
-                refresh = monitor.refreshRate + 0.0;
-              };
-              position = {
-                x = monitor.x;
-                y = monitor.y;
-              };
-              scale = monitor.scale;
-              transform.rotation = transformToRotation monitor.transform;
-              variable-refresh-rate = monitor.vrr or false;
-            }
-          )
-        );
+        if monitors == [ ] then
+          { } # Empty outputs - Niri will auto-detect
+        else
+          let
+            # Convert transform number to Niri rotation (integer degrees)
+            # 0 = normal, 1 = 90° CCW, 2 = 180°, 3 = 270° CCW
+            transformToRotation =
+              t:
+              if t == 0 then
+                0
+              else if t == 1 then
+                90
+              else if t == 2 then
+                180
+              else if t == 3 then
+                270
+              else
+                0;
+          in
+          lib.listToAttrs (
+            lib.forEach monitors (
+              monitor:
+              lib.nameValuePair monitor.name {
+                enable = monitor.enabled;
+                mode = {
+                  width = monitor.width;
+                  height = monitor.height;
+                  # Convert integer to float by adding 0.0
+                  refresh = monitor.refreshRate + 0.0;
+                };
+                position = {
+                  x = monitor.x;
+                  y = monitor.y;
+                };
+                scale = monitor.scale;
+                transform.rotation = transformToRotation monitor.transform;
+                variable-refresh-rate = monitor.vrr or false;
+              }
+            )
+          );
     };
   };
 
