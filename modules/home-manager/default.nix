@@ -7,7 +7,6 @@
 
 let
   desktop = host.desktop or { };
-  greeter = host.greeter or { };
 
   # Data-driven desktop detection
   desktopNames = [ "gnome" "hyprland" "niri" ];
