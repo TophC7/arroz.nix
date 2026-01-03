@@ -76,6 +76,16 @@
       inputs.hyprland.follows = "hyprland";
     };
 
+    split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland";
+    };
+
+    hyprnavi-psm = {
+      url = "github:TophC7/hyprnavi-psm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ambxst = {
       url = "github:Axenide/Ambxst";
       inputs = {

@@ -9,12 +9,18 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   hyprscrolling = arrozInputs.hyprland-plugins.packages.${system}.hyprscrolling;
+  split-monitor-workspaces =
+    arrozInputs.split-monitor-workspaces.packages.${system}.split-monitor-workspaces;
+  hyprnavi = arrozInputs.hyprnavi-psm.packages.${system}.default;
 in
 {
   imports = lib.flatten [
     (lib.fs.scanPaths ./.)
     ../_wayland.nix
   ];
+
+  # Navigation tool for Hyprland (auto-detects split-monitor-workspaces)
+  home.packages = [ hyprnavi ];
 
   # Hyprland home-manager configuration
   wayland.windowManager.hyprland = {
@@ -29,6 +35,7 @@ in
     # Plugins for niri-like scrolling layout and overview
     plugins = lib.mkDefault [
       hyprscrolling # Column-based scrolling layout like niri
+      split-monitor-workspaces # Per-monitor workspace splitting
     ];
 
     settings = {
@@ -64,6 +71,13 @@ in
           fullscreen_on_one_column = lib.mkDefault false;
           focus_fit_method = lib.mkDefault 1; # 0 = center, 1 = fit
           follow_focus = lib.mkDefault true; # Auto-scroll to focused window
+        };
+
+        split-monitor-workspaces = {
+          count = lib.mkDefault 10; # Workspaces per monitor
+          keep_focused = lib.mkDefault false; # Keep current workspaces on plugin init
+          enable_notifications = lib.mkDefault false; # Disable notifications
+          enable_persistent_workspaces = lib.mkDefault true; # Manage persistent workspaces
         };
       };
 

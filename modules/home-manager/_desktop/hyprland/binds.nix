@@ -1,10 +1,15 @@
 # Default Hyprland keybindings
 # These are minimal defaults - hosts can override in home/hosts/<hostname>/config/hyprland/
 {
+  arrozInputs,
   lib,
   pkgs,
   ...
 }:
+let
+  system = pkgs.stdenv.hostPlatform.system;
+  hyprnavi = lib.getExe arrozInputs.hyprnavi-psm.packages.${system}.default;
+in
 {
   wayland.windowManager.hyprland.settings = {
     "$mod" = lib.mkDefault "SUPER";
@@ -18,45 +23,50 @@
       "$mod, F, fullscreen"
       "$mod, Space, togglefloating"
 
-      # Focus movement (arrow keys)
-      "$mod, left, movefocus, l"
-      "$mod, right, movefocus, r"
-      "$mod, up, movefocus, u"
-      "$mod, down, movefocus, d"
+      # Focus movement using hyprnavi
+      # -p: position-based detection for scrolling layouts (hyprscrolling)
+      # -m: navigate to adjacent monitor at screen edges
+      # L/R: Move across monitors | U/D: Move across workspaces (wraps by default)
+      "$mod, left, exec, ${hyprnavi} l -pm"
+      "$mod, right, exec, ${hyprnavi} r -pm"
+      "$mod, up, exec, ${hyprnavi} u -p"
+      "$mod, down, exec, ${hyprnavi} d -p"
 
-      # Window movement
-      "$mod SHIFT, left, movewindow, l"
-      "$mod SHIFT, right, movewindow, r"
-      "$mod SHIFT, up, movewindow, u"
-      "$mod SHIFT, down, movewindow, d"
+      # Window movement using hyprnavi
+      # -ps: position-based + swap = column-aware movement via layoutmsg
+      # L/R: Move window across monitors | U/D: Move across workspaces (wraps)
+      "$mod SHIFT, left, exec, ${hyprnavi} l -psm"
+      "$mod SHIFT, right, exec, ${hyprnavi} r -psm"
+      "$mod SHIFT, up, exec, ${hyprnavi} u -ps"
+      "$mod SHIFT, down, exec, ${hyprnavi} d -ps"
 
-      # Workspace switching (1-10)
-      "$mod, 1, workspace, 1"
-      "$mod, 2, workspace, 2"
-      "$mod, 3, workspace, 3"
-      "$mod, 4, workspace, 4"
-      "$mod, 5, workspace, 5"
-      "$mod, 6, workspace, 6"
-      "$mod, 7, workspace, 7"
-      "$mod, 8, workspace, 8"
-      "$mod, 9, workspace, 9"
-      "$mod, 0, workspace, 10"
+      # Workspace switching (1-10) using split-monitor-workspaces
+      "$mod, 1, split-workspace, 1"
+      "$mod, 2, split-workspace, 2"
+      "$mod, 3, split-workspace, 3"
+      "$mod, 4, split-workspace, 4"
+      "$mod, 5, split-workspace, 5"
+      "$mod, 6, split-workspace, 6"
+      "$mod, 7, split-workspace, 7"
+      "$mod, 8, split-workspace, 8"
+      "$mod, 9, split-workspace, 9"
+      "$mod, 0, split-workspace, 10"
 
-      # Move window to workspace
-      "$mod SHIFT, 1, movetoworkspace, 1"
-      "$mod SHIFT, 2, movetoworkspace, 2"
-      "$mod SHIFT, 3, movetoworkspace, 3"
-      "$mod SHIFT, 4, movetoworkspace, 4"
-      "$mod SHIFT, 5, movetoworkspace, 5"
-      "$mod SHIFT, 6, movetoworkspace, 6"
-      "$mod SHIFT, 7, movetoworkspace, 7"
-      "$mod SHIFT, 8, movetoworkspace, 8"
-      "$mod SHIFT, 9, movetoworkspace, 9"
-      "$mod SHIFT, 0, movetoworkspace, 10"
+      # Move window to workspace using split-monitor-workspaces
+      "$mod SHIFT, 1, split-movetoworkspace, 1"
+      "$mod SHIFT, 2, split-movetoworkspace, 2"
+      "$mod SHIFT, 3, split-movetoworkspace, 3"
+      "$mod SHIFT, 4, split-movetoworkspace, 4"
+      "$mod SHIFT, 5, split-movetoworkspace, 5"
+      "$mod SHIFT, 6, split-movetoworkspace, 6"
+      "$mod SHIFT, 7, split-movetoworkspace, 7"
+      "$mod SHIFT, 8, split-movetoworkspace, 8"
+      "$mod SHIFT, 9, split-movetoworkspace, 9"
+      "$mod SHIFT, 0, split-movetoworkspace, 10"
 
-      # Scroll through workspaces
-      "$mod, mouse_down, workspace, e+1"
-      "$mod, mouse_up, workspace, e-1"
+      # Scroll through workspaces on current monitor
+      "$mod, mouse_down, split-workspace, e+1"
+      "$mod, mouse_up, split-workspace, e-1"
     ];
 
     # Mouse bindings
