@@ -11,8 +11,8 @@
     ../_wayland.nix
   ];
 
-  # Matugen template for Niri colors
-  theme.matugen.templates.niri-colors = {
+  # Matugen template for Niri colors (skipped when DMS manages colors)
+  theme.matugen.templates.niri-colors = lib.mkIf (!config.arroz.niri.dms.includeColors) {
     template = pkgs.writeText "niri-colors-template.kdl" ''
       layout {
           background-color "transparent"
@@ -44,7 +44,22 @@
           }
       }
     '';
-    path = ".config/niri/colors.kdl";
+    path = ".config/niri/arroz/colors.kdl";
+  };
+
+  # Arroz recent-windows config (skipped when DMS manages recents)
+  xdg.configFile."niri/arroz/recents.kdl" = lib.mkIf (!config.arroz.niri.dms.includeRecents) {
+    text = ''
+      // Arroz recent-windows configuration
+      recent-windows {
+          debounce-ms 0
+          open-delay-ms 0
+
+          highlight {
+              corner-radius 12
+          }
+      }
+    '';
   };
 
   programs.niri = {
@@ -76,7 +91,8 @@
         path = lib.mkDefault (lib.getExe pkgs.xwayland-satellite);
       };
 
-      layout = {
+      # Layout settings (skipped when DMS manages layout)
+      layout = lib.mkIf (!config.arroz.niri.dms.includeLayout) {
         gaps = lib.mkDefault 8;
         center-focused-column = lib.mkDefault "never";
 
@@ -159,30 +175,29 @@
       screenshot-path = lib.mkDefault "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
 
       # Outputs - dynamically configured from monitors option
-      # If monitors option doesn't exist or is empty, omit outputs for auto-detection
+      # Skipped when: DMS manages outputs OR monitors is empty/undefined
       outputs =
         let
           monitors = config.monitors or [ ];
+          hasMonitors = monitors != [ ];
+          dmsManagesOutputs = config.arroz.niri.dms.includeOutputs;
+
+          # Convert transform number to Niri rotation (integer degrees)
+          # 0 = normal, 1 = 90° CCW, 2 = 180°, 3 = 270° CCW
+          transformToRotation =
+            t:
+            if t == 0 then
+              0
+            else if t == 1 then
+              90
+            else if t == 2 then
+              180
+            else if t == 3 then
+              270
+            else
+              0;
         in
-        if monitors == [ ] then
-          { } # Empty outputs - Niri will auto-detect
-        else
-          let
-            # Convert transform number to Niri rotation (integer degrees)
-            # 0 = normal, 1 = 90° CCW, 2 = 180°, 3 = 270° CCW
-            transformToRotation =
-              t:
-              if t == 0 then
-                0
-              else if t == 1 then
-                90
-              else if t == 2 then
-                180
-              else if t == 3 then
-                270
-              else
-                0;
-          in
+        lib.mkIf (hasMonitors && !dmsManagesOutputs) (
           lib.listToAttrs (
             lib.forEach monitors (
               monitor:
@@ -191,7 +206,6 @@
                 mode = {
                   width = monitor.width;
                   height = monitor.height;
-                  # Convert integer to float by adding 0.0
                   refresh = monitor.refreshRate + 0.0;
                 };
                 position = {
@@ -203,36 +217,48 @@
                 variable-refresh-rate = monitor.vrr or false;
               }
             )
-          );
+          )
+        );
     };
   };
 
   xdg.configFile = {
-    # colors.kdl is automatically installed by theme-spec at .config/niri/colors.kdl
-    # Override the config file creation with our custom version that includes colors
-    # Using programs.niri's generated file with the prepended include
+    niri-config-dms.enable = lib.mkForce false;
     niri-config = lib.mkForce {
       enable = true;
       target = "niri/config.kdl";
-      text = ''
-        include "colors.kdl"
+      text =
+        let
+          # Colors: arroz/colors.kdl or dms/colors.kdl
+          colorsInclude =
+            if config.arroz.niri.dms.includeColors then
+              ''include "dms/colors.kdl"''
+            else
+              ''include "arroz/colors.kdl"'';
 
-        recent-windows {
-            debounce-ms 0
-            open-delay-ms 0
+          # Recents: arroz/recents.kdl or dms/alttab.kdl
+          recentsInclude =
+            if config.arroz.niri.dms.includeRecents then
+              ''include "dms/alttab.kdl"''
+            else
+              ''include "arroz/recents.kdl"'';
 
-            highlight {
-                    corner-radius 8
-            }
+          # DMS-only includes (only when enabled)
+          layoutInclude = lib.optionalString config.arroz.niri.dms.includeLayout ''include "dms/layout.kdl"'';
+          bindsInclude = lib.optionalString config.arroz.niri.dms.includeBinds ''include "dms/binds.kdl"'';
+          outputsInclude = lib.optionalString config.arroz.niri.dms.includeOutputs ''include "dms/outputs.kdl"'';
+          wpblurInclude = lib.optionalString config.arroz.niri.dms.includeWpblur ''include "dms/wpblur.kdl"'';
+        in
+        ''
+          ${config.programs.niri.finalConfig}
 
-            binds {
-                Mod+Z         { next-window; }
-                Mod+Super+Z   { previous-window; }
-            }
-        }
-
-        ${config.programs.niri.finalConfig}
-      '';
+          ${bindsInclude}
+          ${colorsInclude}
+          ${layoutInclude}
+          ${outputsInclude}
+          ${recentsInclude}
+          ${wpblurInclude}
+        '';
     };
   };
 }

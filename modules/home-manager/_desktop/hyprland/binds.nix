@@ -1,4 +1,5 @@
 # Default Hyprland keybindings
+# Includes DMS IPC calls for integrated desktop features
 # These are minimal defaults - hosts can override in home/hosts/<hostname>/config/hyprland/
 {
   arrozInputs,
@@ -15,18 +16,40 @@ in
     "$mod" = lib.mkDefault "SUPER";
 
     bind = lib.mkDefault [
-      # Application launchers (minimal defaults)
+      # Application launchers
       "$mod, Return, exec, ${lib.getExe pkgs.ghostty}"
+
+      # DMS Application Launchers
+      "$mod, space, exec, dms ipc call spotlight toggle"
+      "$mod, V, exec, dms ipc call clipboard toggle"
+      "$mod, M, exec, dms ipc call processlist focusOrToggle"
+      "$mod, comma, exec, dms ipc call settings focusOrToggle"
+      "$mod, N, exec, dms ipc call notifications toggle"
+      "$mod SHIFT, N, exec, dms ipc call notepad toggle"
+      "$mod, Y, exec, dms ipc call dankdash wallpaper"
+      "CTRL ALT, Delete, exec, dms ipc call processlist focusOrToggle"
+
+      # DMS Overview & Help
+      "$mod, TAB, exec, dms ipc call hypr toggleOverview"
+      "$mod SHIFT, Slash, exec, dms ipc call keybinds toggle hyprland"
+
+      # DMS System
+      "$mod ALT, L, exec, dms ipc call lock lock"
+
+      # DMS Screenshots
+      ", Print, exec, dms screenshot"
+      "CTRL, Print, exec, dms screenshot full"
+      "ALT, Print, exec, dms screenshot window"
 
       # Window management
       "$mod, Q, killactive"
       "$mod, F, fullscreen"
-      "$mod, Space, togglefloating"
+      "$mod, D, togglefloating"
 
       # Focus movement using hyprnavi
       # -p: position-based detection for scrolling layouts (hyprscrolling)
       # -m: navigate to adjacent monitor at screen edges
-      # L/R: Move across monitors | U/D: Move across workspaces (wraps by default)
+      # L/R: Move across monitors | U/D: Move across workspaces
       "$mod, left, exec, ${hyprnavi} l -pm"
       "$mod, right, exec, ${hyprnavi} r -pm"
       "$mod, up, exec, ${hyprnavi} u -p"
@@ -34,7 +57,7 @@ in
 
       # Window movement using hyprnavi
       # -ps: position-based + swap = column-aware movement via layoutmsg
-      # L/R: Move window across monitors | U/D: Move across workspaces (wraps)
+      # L/R: Move window across monitors | U/D: Move across workspaces
       "$mod SHIFT, left, exec, ${hyprnavi} l -psm"
       "$mod SHIFT, right, exec, ${hyprnavi} r -psm"
       "$mod SHIFT, up, exec, ${hyprnavi} u -ps"
@@ -75,21 +98,22 @@ in
       "$mod, mouse:273, resizewindow"
     ];
 
-    # Media keys (repeatable)
+    # Media keys (repeatable) - via DMS
     bindel = lib.mkDefault [
-      ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-      ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-      ", XF86MonBrightnessUp, exec, brightnessctl s 5%+"
-      ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
+      ", XF86AudioRaiseVolume, exec, dms ipc call audio increment 3"
+      ", XF86AudioLowerVolume, exec, dms ipc call audio decrement 3"
+      ", XF86MonBrightnessUp, exec, dms ipc call brightness increment 5"
+      ", XF86MonBrightnessDown, exec, dms ipc call brightness decrement 5"
     ];
 
-    # Media keys (non-repeatable)
+    # Media keys (non-repeatable) - via DMS
     bindl = lib.mkDefault [
-      ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-      ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-      ", XF86AudioPlay, exec, ${lib.getExe pkgs.playerctl} play-pause"
-      ", XF86AudioNext, exec, ${lib.getExe pkgs.playerctl} next"
-      ", XF86AudioPrev, exec, ${lib.getExe pkgs.playerctl} previous"
+      ", XF86AudioMute, exec, dms ipc call audio mute"
+      ", XF86AudioMicMute, exec, dms ipc call audio micmute"
+      ", XF86AudioPlay, exec, dms ipc call mpris playPause"
+      ", XF86AudioPause, exec, dms ipc call mpris playPause"
+      ", XF86AudioNext, exec, dms ipc call mpris next"
+      ", XF86AudioPrev, exec, dms ipc call mpris previous"
     ];
   };
 }

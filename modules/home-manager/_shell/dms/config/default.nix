@@ -9,15 +9,15 @@ in
       source = ./clsettings.json;
       onChange = ''
         cp ${cfgDir}/clsettings_source.json ${cfgDir}/clsettings.json
-        chmod 644 ${cfgDir}/clsettings.json
+        chmod 755 ${cfgDir}/clsettings.json
       '';
     };
 
-    ".config/DankMaterialShell/default-settings_source.json" = {
-      source = ./default-settings.json;
+    ".config/DankMaterialShell/settings_source.json" = {
+      source = ./settings.json;
       onChange = ''
-        cp ${cfgDir}/default-settings_source.json ${cfgDir}/default-settings.json
-        chmod 644 ${cfgDir}/default-settings.json
+        cp ${cfgDir}/settings_source.json ${cfgDir}/settings.json
+        chmod 755 ${cfgDir}/settings.json
       '';
     };
   };

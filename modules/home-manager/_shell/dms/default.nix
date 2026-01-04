@@ -18,12 +18,12 @@ in
   imports = lib.flatten [
     arrozInputs.dankMaterialShell.homeModules.dank-material-shell
     (lib.optional isNiri arrozInputs.dankMaterialShell.homeModules.niri)
-    ./vicinae.nix
+    (lib.fs.scanPaths ./.)
   ];
 
   # Set Qt platform theme for consistent theming
   home.sessionVariables = {
-    QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
+    QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
   };
 
   # DankMaterialShell base configuration
@@ -35,8 +35,8 @@ in
     systemd.enable = lib.mkDefault true;
 
     # Default settings/session (empty for now, can be customized per-host)
-    default.settings = lib.mkDefault { };
-    default.session = lib.mkDefault { };
+    settings = lib.mkDefault { };
+    session = lib.mkDefault { };
 
     # Core features
     enableSystemMonitoring = lib.mkDefault true; # System monitoring widgets (dgop)
@@ -65,6 +65,9 @@ in
       };
     };
 
+  }
+  // lib.optionalAttrs isNiri {
+    # Disable DMS includes override; we have more specific options
+    niri.includes.override = false;
   };
-  # DMS starts via systemd graphical-session.target - no manual spawn needed
 }

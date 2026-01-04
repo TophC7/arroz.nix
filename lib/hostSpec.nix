@@ -32,11 +32,22 @@
       hyprland = {
         enable = lib.mkEnableOption "Hyprland Wayland compositor";
         default = lib.mkEnableOption "Hyprland as the default/primary session";
+        dms = {
+          sourceOutputs = lib.mkEnableOption "source DMS outputs config (~/.config/hypr/dms/outputs.conf)";
+        };
       };
 
       niri = {
         enable = lib.mkEnableOption "Niri scrolling Wayland compositor";
         default = lib.mkEnableOption "Niri as the default/primary session";
+        dms = {
+          includeBinds = lib.mkEnableOption "include DMS binds config (dms/binds.kdl)";
+          includeColors = lib.mkEnableOption "include DMS colors config (dms/colors.kdl)";
+          includeLayout = lib.mkEnableOption "include DMS layout config (dms/layout.kdl)";
+          includeOutputs = lib.mkEnableOption "include DMS outputs config (dms/outputs.kdl)";
+          includeRecents = lib.mkEnableOption "include DMS recents config (dms/alttab.kdl)";
+          includeWpblur = lib.mkEnableOption "include DMS wallpaper blur config (dms/wpblur.kdl)";
+        };
       };
     };
 
