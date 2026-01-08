@@ -46,6 +46,10 @@ in
       "$mod, F, fullscreen"
       "$mod, D, togglefloating"
 
+      # Scratch layer - toggle visibility of all floating windows
+      # Floating windows auto-route to scratch; togglefloating moves them in/out
+      "$mod, S, togglespecialworkspace, scratch"
+
       # Focus movement using hyprnavi
       # -p: position-based detection for scrolling layouts (hyprscrolling)
       # -m: navigate to adjacent monitor at screen edges

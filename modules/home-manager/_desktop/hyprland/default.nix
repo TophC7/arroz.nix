@@ -89,6 +89,7 @@ in
         inactive_opacity = lib.mkDefault 0.92;
         fullscreen_opacity = lib.mkDefault 1.0;
         dim_inactive = lib.mkDefault true;
+        dim_special = lib.mkDefault 0.0;
         dim_strength = lib.mkDefault 0.2;
 
         blur = {
