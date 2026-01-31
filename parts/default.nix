@@ -1,15 +1,20 @@
 # Entry point for arroz.nix flake-parts modules
 #
-# Wraps mix-nix's hosts module with arroz's extended host spec
-# (desktop/greeter options) and auto-injects arroz modules.
+# Extends mix-nix's host system with desktop/greeter options
+# and auto-injects arroz NixOS/Home Manager modules.
 #
 # Usage:
-#   imports = [ inputs.arroz-nix.flakeModules.default ];
+#   imports = [
+#     inputs.mix-nix.flakeModules.default  # Consumer must import mix-nix first
+#     inputs.arroz-nix.flakeModules.default
+#   ];
+#
+# NOTE: This module does NOT import mix-nix.flakeModules.hosts directly.
+# Consumers must import mix-nix themselves.
 #
 { arrozInputs }:
 {
   imports = [
-    arrozInputs.mix-nix.flakeModules.hosts
     (import ./hosts.nix { inherit arrozInputs; })
   ];
 }

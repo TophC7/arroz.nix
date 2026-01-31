@@ -107,7 +107,6 @@
         specialArgs = { inherit lib; };
       }
       {
-        imports = [ (import ./parts { arrozInputs = inputs; }) ];
 
         systems = [
           "x86_64-linux"
