@@ -21,7 +21,7 @@ let
       name = "hyprland";
       enabled = desktop.hyprland.enable or false;
       isDefault = desktop.hyprland.default or false;
-      session = "hyprland-uwsm"; # UWSM-managed session
+      session = "hyprland"; # UWSM is enabled but session name stays "hyprland"
     }
     {
       name = "niri";
