@@ -63,6 +63,17 @@
       "float on, match:class ^(nm-connection-editor)$"
       "float on, match:class ^(blueman-manager)$"
 
+      #
+      # PROTON APPS (Pass top-right, Authenticator bottom-right)
+      #
+      "float on, match:class ^(Proton Pass)$"
+      "size 1080 960, match:class ^(Proton Pass)$"
+      "move 90%-1080 10%, match:class ^(Proton Pass)$"
+
+      "float on, match:class ^(proton-authenticator)$"
+      "size 1080 960, match:class ^(proton-authenticator)$"
+      "move 90%-1080 90%-960, match:class ^(proton-authenticator)$"
+
       # Picture-in-picture
       "float on, match:title ^(Picture.in.Picture|Picture in Picture)$"
       "pin on, match:title ^(Picture.in.Picture|Picture in Picture)$"
