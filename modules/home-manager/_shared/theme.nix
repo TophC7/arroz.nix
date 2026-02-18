@@ -49,15 +49,16 @@ in
       };
 
       targets = {
+        dank-material-shell.enable = lib.mkDefault false;
         gnome = {
           enable = lib.mkDefault true;
           useWallpaper = lib.mkDefault true;
         };
-        vscode.enable = lib.mkDefault false;
         qt = {
           enable = lib.mkDefault true;
           platform = lib.mkDefault "qtct";
         };
+        vscode.enable = lib.mkDefault false;
       };
     };
 
