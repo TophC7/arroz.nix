@@ -35,7 +35,7 @@ in
 {
   dankActionsPlugin = mkPlugin {
     pname = "dms-dank-actions";
-    src = arrozInputs.dms-plugin-actions;
+    src = arrozInputs.dms-actions;
     subdir = "DankActions";
     description = "DankMaterialShell DankActions plugin";
     homepage = "https://github.com/AvengeMedia/dms-plugins";
@@ -44,7 +44,7 @@ in
 
   easyEffectsPlugin = mkPlugin {
     pname = "dms-easyeffects";
-    src = arrozInputs.dms-plugin-easyeffects;
+    src = arrozInputs.dms-easyeffects;
     description = "DankMaterialShell EasyEffects plugin for audio profile switching";
     homepage = "https://github.com/jonkristian/dms-easyeffects";
     license = lib.licenses.gpl3Only;
@@ -52,7 +52,7 @@ in
 
   displaySettingsPlugin = mkPlugin {
     pname = "dms-display-settings";
-    src = arrozInputs.dms-plugin-display-settings;
+    src = arrozInputs.dms-display-settings;
     subdir = "displaySettings";
     description = "DankMaterialShell display settings plugin for screen management";
     homepage = "https://github.com/Lucyfire/dms-plugins";
@@ -61,7 +61,7 @@ in
 
   nixMonitorPlugin = mkPlugin {
     pname = "dms-nix-monitor";
-    src = arrozInputs.dms-plugin-nix-monitor;
+    src = arrozInputs.dms-nix-monitor;
     description = "DankMaterialShell Nix update monitor widget";
     homepage = "https://github.com/antonjah/nix-monitor";
     license = lib.licenses.mit;
