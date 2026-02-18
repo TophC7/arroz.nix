@@ -2,22 +2,18 @@
   description = "arroz.nix - Reusable desktop rice configurations for NixOS";
 
   inputs = {
-    ## Core ##
+    # Derive nixpkgs from mix-nix for cache coherence
+    # This ensures mix.nix packages use cached builds
+    nixpkgs.follows = "mix-nix/nixpkgs";
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    ## NixOS ##
 
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     # Core dependency for lib.fs.*, theme, monitors
     mix-nix = {
-      url = "github:tophc7/mix.nix";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
-      };
+      # url = "github:tophc7/mix.nix";
+      url = "git+file:///repo/Nix/mix.nix";
     };
 
     home-manager = {
@@ -37,25 +33,42 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## Niri Ecosystem ##
-
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    ## Dank Material Shell ##
 
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dgop = {
-      url = "github:AvengeMedia/dgop";
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dankMaterialShell = {
-      url = "github:AvengeMedia/DankMaterialShell";
+    dms-actions = {
+      url = "github:AvengeMedia/dms-plugins";
+      flake = false;
+    };
+
+    dms-easyeffects = {
+      url = "github:jonkristian/dms-easyeffects";
+      flake = false;
+    };
+
+    dms-display-settings = {
+      url = "github:Lucyfire/dms-plugins";
+      flake = false;
+    };
+
+    dms-nix-monitor = {
+      url = "github:antonjah/nix-monitor";
+      flake = false;
+    };
+
+    ## Niri Ecosystem ##
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -82,7 +95,8 @@
     };
 
     hyprnavi-psm = {
-      url = "github:TophC7/hyprnavi-psm";
+      # url = "github:TophC7/hyprnavi-psm";
+      url = "git+file:///repo/rust/hyprnavi";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

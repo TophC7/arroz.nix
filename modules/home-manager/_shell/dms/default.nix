@@ -1,5 +1,4 @@
 # DankMaterialShell - Unified configuration for niri and hyprland
-# Automatically applies compositor-specific settings based on host.desktop
 {
   arrozInputs,
   host,
@@ -12,7 +11,7 @@ let
   desktop = host.desktop or { };
   system = pkgs.stdenv.hostPlatform.system;
   isNiri = desktop.niri.enable or false;
-  plugins = import ./_plugins.nix { inherit lib pkgs; };
+  plugins = import ./_plugins.nix { inherit arrozInputs lib pkgs; };
 in
 {
   imports = lib.flatten [
@@ -21,29 +20,27 @@ in
     (lib.fs.scanPaths ./.)
   ];
 
-  # Set Qt platform theme for consistent theming
   home.sessionVariables = {
     QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
   };
 
-  # DankMaterialShell base configuration
   programs.dank-material-shell = {
     enable = lib.mkDefault true;
     quickshell.package = arrozInputs.quickshell.packages.${system}.default;
 
-    # Systemd service for DMS
-    systemd.enable = lib.mkDefault true;
-
-    # Default settings/session (empty for now, can be customized per-host)
-    settings = lib.mkDefault { };
-    session = lib.mkDefault { };
+    # Systemd integration for DMS
+    systemd = {
+      enable = lib.mkDefault true;
+      restartIfChanged = lib.mkDefault true;
+    };
 
     # Core features
-    enableSystemMonitoring = lib.mkDefault true; # System monitoring widgets (dgop)
-    enableVPN = lib.mkDefault true; # VPN management widget
-    enableDynamicTheming = lib.mkDefault true; # Wallpaper-based theming (matugen)
-    enableAudioWavelength = lib.mkDefault true; # Audio visualizer (cava)
-    enableCalendarEvents = lib.mkDefault true; # Calendar integration (khal)
+    enableSystemMonitoring = lib.mkDefault true;
+    enableVPN = lib.mkDefault true;
+    enableDynamicTheming = lib.mkDefault true;
+    enableAudioWavelength = lib.mkDefault true;
+    enableCalendarEvents = lib.mkDefault true;
+    enableClipboardPaste = lib.mkDefault true;
 
     # Plugins
     plugins = {
@@ -64,7 +61,6 @@ in
         src = plugins.nixMonitorPlugin;
       };
     };
-
   }
   // lib.optionalAttrs isNiri {
     # Disable DMS includes override; we have more specific options
