@@ -5,6 +5,7 @@
 #   - ~/.config/hypr/dms/outputs.conf - Monitor configuration (editable at runtime)
 #
 {
+  config,
   host,
   lib,
   pkgs,
@@ -13,6 +14,7 @@
 let
   dms = host.desktop.hyprland.dms or { };
   sourceOutputs = dms.sourceOutputs or false;
+  hyprLib = import ./_lib.nix { inherit lib config; };
 
   # Outputs placeholder file - created via Nix
   outputsPlaceholder = pkgs.writeText "dms-outputs-placeholder.conf" ''
@@ -20,7 +22,7 @@ let
     # This file is managed by DMS at runtime for monitor configuration
     # Edit via DMS settings or modify directly - changes persist across rebuilds
 
-    monitor = , preferred, auto, auto
+    ${hyprLib.monitorLines}
   '';
 in
 {

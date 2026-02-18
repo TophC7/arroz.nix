@@ -2,12 +2,16 @@
 {
   arrozInputs,
   config,
+  host,
   lib,
   pkgs,
   ...
 }:
 let
   system = pkgs.stdenv.hostPlatform.system;
+  dms = host.desktop.hyprland.dms or { };
+  sourceOutputs = dms.sourceOutputs or false;
+  hyprLib = import ./_lib.nix { inherit lib config; };
   hyprscrolling = arrozInputs.hyprland-plugins.packages.${system}.hyprscrolling;
   split-monitor-workspaces =
     arrozInputs.split-monitor-workspaces.packages.${system}.split-monitor-workspaces;
@@ -165,26 +169,8 @@ in
 
       # Monitor configuration from config.monitors
       # Falls back to auto-detection if monitors option doesn't exist or is empty
-      monitor =
-        let
-          monitors = config.monitors or [ ];
-        in
-        if monitors == [ ] then
-          [ ",preferred,auto,1" ] # Auto-detect all monitors
-        else
-          lib.forEach monitors (
-            m:
-            let
-              resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
-              position = "${toString m.x}x${toString m.y}";
-              scale = toString m.scale;
-              transform = toString m.transform;
-              vrr = if (m.vrr or false) != false then ",vrr,1" else "";
-            in
-            "${m.name},${
-              if m.enabled then "${resolution},${position},${scale},transform,${transform}${vrr}" else "disable"
-            }"
-          );
+      # Skipped when DMS sourceOutputs is active (monitor config comes from sourced file)
+      monitor = lib.mkIf (!sourceOutputs) hyprLib.monitorList;
     };
   };
 }
