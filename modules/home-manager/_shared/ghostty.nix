@@ -6,7 +6,7 @@
     enable = lib.mkDefault true;
     enableFishIntegration = lib.mkDefault true;
     settings = {
-      theme = lib.mkDefault "stylix";
+      theme = lib.mkDefault "dank16";
       font-family = lib.mkDefault "monospace";
       font-size = lib.mkDefault "11";
       background-opacity = lib.mkDefault "0.85";
