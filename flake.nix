@@ -68,7 +68,7 @@
     ## Niri Ecosystem ##
 
     niri = {
-      url = "github:sodiboo/niri-flake";
+      url = "github:tophc7/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
