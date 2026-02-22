@@ -109,6 +109,11 @@
           proportion = 0.5;
         };
 
+        border = {
+          enable = lib.mkDefault false;
+          width = lib.mkDefault 4;
+        };
+
         focus-ring = {
           enable = lib.mkDefault true;
           width = lib.mkDefault 4;
