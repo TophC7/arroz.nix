@@ -129,6 +129,7 @@ in
         "Mod+Alt+Up".action.set-window-height = "+10%";
         "Mod+Alt+Down".action.set-window-height = "-10%";
         "Mod+Alt+F".action.fullscreen-window = { };
+        "Mod+Alt+F".allow-inhibiting = false;
 
         # Screenshots
         "Print".action.screenshot = { };

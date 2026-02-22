@@ -131,15 +131,43 @@
           open-floating = true;
         }
 
+        # Common dialogs
+        {
+          matches = [
+            { title = "^(Open|Save|File|Folder).*$"; }
+            { title = "^(Open File|Save File|Save As).*$"; }
+            { app-id = "^org\\.gnome\\.Calculator$"; }
+            { app-id = "^pavucontrol$"; }
+            { app-id = "^nm-connection-editor$"; }
+            { app-id = "^blueman-manager$"; }
+            { app-id = "^xdg-desktop-portal.*$"; }
+          ];
+          open-floating = true;
+        }
+
+        # Picture-in-Picture
+        {
+          matches = [
+            { title = "^Picture.in.Picture$"; }
+            { title = "^Picture in Picture$"; }
+          ];
+          open-floating = true;
+          default-column-width.fixed = 640;
+          default-window-height.fixed = 360;
+        }
+
         # Gaming
         {
           matches = [
-            { app-id = "^.gamescope-wrapped$"; }
-            { app-id = "^steam_app_.*$"; }
+            { app-id = "^\\.?gamescope"; } # gamescope & .gamescope-wrapped
+            { app-id = "^steam_app_"; } # All Steam app windows
+            { app-id = "\\.exe$"; } # All Wine/Proton .exe windows
+            { app-id = "^HytaleClient$"; }
           ];
           default-column-width.proportion = 1.0;
           open-fullscreen = true;
           variable-refresh-rate = true;
+          inhibit-shortcuts = true;
         }
       ];
     };
