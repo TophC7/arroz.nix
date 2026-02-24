@@ -934,11 +934,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1771798243,
-        "narHash": "sha256-WUKuw+kz1e7b8BMtixSaaLSJn2x/W9TGxpFtt033Mz8=",
+        "lastModified": 1771889367,
+        "narHash": "sha256-Sce42FyGGadnkFdPwya3LqD95E+jAzVcvwJfkyy0e7k=",
         "owner": "tophc7",
         "repo": "niri-flake",
-        "rev": "96b4cac53947ea8c3ebbdad413aefebdb2522da8",
+        "rev": "149ab4c730e384d0582d9ae5e041ed2cd9c19d1f",
         "type": "github"
       },
       "original": {

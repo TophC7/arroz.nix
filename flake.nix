@@ -69,6 +69,7 @@
 
     niri = {
       url = "github:tophc7/niri-flake";
+      # url = "git+file:///repo/Nix/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
