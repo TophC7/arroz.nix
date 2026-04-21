@@ -12,8 +12,7 @@
 
     # Core dependency for lib.fs.*, theme, monitors
     mix-nix = {
-      # url = "github:tophc7/mix.nix";
-      url = "git+file:///repo/Nix/mix.nix";
+      url = "github:tophc7/mix.nix";
     };
 
     home-manager = {
@@ -69,7 +68,6 @@
 
     niri = {
       url = "github:tophc7/niri-flake";
-      # url = "git+file:///repo/Nix/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -96,8 +94,7 @@
     };
 
     hyprnavi-psm = {
-      # url = "github:TophC7/hyprnavi-psm";
-      url = "git+file:///repo/rust/hyprnavi";
+      url = "github:TophC7/hyprnavi-psm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
