@@ -1,4 +1,4 @@
-# DankMaterialShell - Unified configuration for niri and hyprland
+# DankMaterialShell - Niri shell configuration
 {
   arrozInputs,
   host,

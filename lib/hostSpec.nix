@@ -6,7 +6,7 @@
 # Usage:
 #   mix.hosts.myhost = {
 #     user = "toph";
-#     desktop.hyprland.enable = true;
+#     desktop.niri.enable = true;
 #     greeter = {
 #       type = "dms";
 #       autoLogin = true;
@@ -27,14 +27,6 @@
       gnome = {
         enable = lib.mkEnableOption "GNOME desktop environment";
         default = lib.mkEnableOption "GNOME as the default/primary session";
-      };
-
-      hyprland = {
-        enable = lib.mkEnableOption "Hyprland Wayland compositor";
-        default = lib.mkEnableOption "Hyprland as the default/primary session";
-        dms = {
-          sourceOutputs = lib.mkEnableOption "source DMS outputs config (~/.config/hypr/dms/outputs.conf)";
-        };
       };
 
       niri = {

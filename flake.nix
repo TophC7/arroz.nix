@@ -76,35 +76,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## Hyprland Ecosystem ##
-
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
-
-    split-monitor-workspaces = {
-      url = "github:Duckonaut/split-monitor-workspaces";
-      inputs.hyprland.follows = "hyprland";
-    };
-
-    hyprnavi-psm = {
-      url = "github:TophC7/hyprnavi-psm";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ambxst = {
-      url = "github:Axenide/Ambxst";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        quickshell.follows = "quickshell";
-      };
-    };
   };
 
   outputs =

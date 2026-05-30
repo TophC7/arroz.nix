@@ -11,7 +11,6 @@ let
 
   desktopNames = [
     "gnome"
-    "hyprland"
     "niri"
   ];
 
@@ -21,7 +20,6 @@ in
   imports = lib.flatten [
     # ── Desktop Environments ──
     (lib.optional (desktop.gnome.enable or false) ./_desktop/gnome)
-    (lib.optional (desktop.hyprland.enable or false) ./_desktop/hyprland)
     (lib.optional (desktop.niri.enable or false) ./_desktop/niri)
 
     # ── Greeters ──

@@ -16,7 +16,6 @@
 
 **Supported Desktops:**
 - GNOME
-- Hyprland (w/  hyprscrolling, DankMaterialShell)
 - Niri (w/ DankMaterialShell)
 
 **Supported Greeters:**
@@ -73,9 +72,6 @@ mix.hosts.myhost = {
   # Desktop environments (can enable multiple, mark one as default)
   desktop.gnome.enable = true;
   desktop.gnome.default = true;    # Primary session
-
-  desktop.hyprland.enable = true;
-  desktop.hyprland.default = false;
 
   desktop.niri.enable = true;
   desktop.niri.default = false;

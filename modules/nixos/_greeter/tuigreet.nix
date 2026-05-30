@@ -20,7 +20,6 @@ let
   # ── Session Commands ──
   niriPackage = arrozInputs.niri.packages.${system}.niri-unstable;
   sessionCommands = {
-    hyprland = config._hyprlandSession.command;
     niri = "${niriPackage}/bin/niri-session";
     gnome = "gnome-session"; # Provided by GNOME, in PATH
   };
@@ -34,10 +33,7 @@ in
   # (Default validation is handled by _shared/desktop-session.nix)
   assertions = [
     {
-      assertion =
-        (desktop.hyprland.enable or false)
-        || (desktop.niri.enable or false)
-        || (desktop.gnome.enable or false);
+      assertion = (desktop.niri.enable or false) || (desktop.gnome.enable or false);
       message = "tuigreet requires at least one desktop enabled.";
     }
   ];

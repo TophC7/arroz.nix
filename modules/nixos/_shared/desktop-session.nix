@@ -18,12 +18,6 @@ let
   # All desktops for validation
   desktops = [
     {
-      name = "hyprland";
-      enabled = desktop.hyprland.enable or false;
-      isDefault = desktop.hyprland.default or false;
-      session = "hyprland"; # UWSM is enabled but session name stays "hyprland"
-    }
-    {
       name = "niri";
       enabled = desktop.niri.enable or false;
       isDefault = desktop.niri.default or false;

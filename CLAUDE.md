@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-**arroz.nix** is a desktop environment extension for [mix.nix](https://github.com/TophC7/mix.nix). It extends mix.nix's host spec with desktop and greeter options, providing pre-configured modules for GNOME, Hyprland, and Niri that are conditionally loaded based on host configuration.
+**arroz.nix** is a desktop environment extension for [mix.nix](https://github.com/TophC7/mix.nix). It extends mix.nix's host spec with desktop and greeter options, providing pre-configured modules for GNOME and Niri that are conditionally loaded based on host configuration.
 
 This is a **library flake** - it's consumed by other flakes via `inputs.arroz-nix.flakeModules.default`.
 
@@ -25,7 +25,7 @@ nix flake show
 
 ### Input Forwarding Pattern
 
-arroz.nix bundles desktop-related inputs (niri, hyprland, stylix, etc.) so consumers don't need to manage them. The key pattern is **arrozInputs forwarding**:
+arroz.nix bundles desktop-related inputs (niri, stylix, etc.) so consumers don't need to manage them. The key pattern is **arrozInputs forwarding**:
 
 ```nix
 # flake.nix - Capture inputs in closure
@@ -55,7 +55,6 @@ Modules are conditionally imported based on `host.desktop.*` and `host.greeter.*
 # modules/nixos/default.nix
 imports = lib.flatten [
   (lib.optional (desktop.gnome.enable or false) ./_desktop/gnome)
-  (lib.optional (desktop.hyprland.enable or false) ./_desktop/hyprland)
   (lib.optional (desktop.niri.enable or false) ./_desktop/niri)
   (lib.optional (greeter.type or null == "dms") ./_greeter/dms.nix)
   (lib.optional hasDesktop ./_shared)
@@ -75,7 +74,6 @@ modules/
 │   ├── _desktop/             # Desktop-specific (conditional)
 │   │   ├── _wayland.nix      # Shared Wayland config
 │   │   ├── gnome/
-│   │   ├── hyprland/
 │   │   └── niri/
 │   ├── _greeter/             # Greeter-specific (conditional)
 │   └── _shared/              # Loaded when any desktop enabled
@@ -89,8 +87,8 @@ arroz.nix extends mix.nix's host spec via `mix.hostSpecExtensions`:
 
 ```nix
 # lib/hostSpec.nix adds:
-options.desktop.{gnome,hyprland,niri}.enable
-options.desktop.{gnome,hyprland,niri}.default  # Primary session
+options.desktop.{gnome,niri}.enable
+options.desktop.{gnome,niri}.default  # Primary session
 options.greeter.type      # "gdm" | "dms" | "tuigreet" | null
 options.greeter.autoLogin
 ```
@@ -124,8 +122,8 @@ programs.niri.enable = lib.mkDefault true;
 { arrozInputs, pkgs, ... }:
 let system = pkgs.stdenv.hostPlatform.system; in
 {
-  programs.hyprland.package = arrozInputs.hyprland.packages.${system}.hyprland;
+  programs.niri.package = arrozInputs.niri.packages.${system}.niri-unstable;
 }
 ```
 
-**Shared Wayland config** - both Hyprland and Niri import `_wayland.nix` for common infrastructure (PipeWire, XDG portals, fonts, etc.)
+**Shared Wayland config** - Niri imports `_wayland.nix` for common infrastructure (PipeWire, XDG portals, fonts, etc.)

@@ -3,7 +3,7 @@
 # Extends mix.nix with desktop/greeter options and auto-injects arroz modules.
 # Uses mix.hostSpecExtensions for composable type extension.
 #
-# External flake inputs (niri, hyprland, etc.) are:
+# External flake inputs (niri, stylix, etc.) are:
 # - NixOS/HM modules: imported directly here
 # - Packages: accessed via arrozInputs (passed to modules via _module.args)
 #
@@ -19,7 +19,7 @@
 #
 #   mix.hosts.myhost = {
 #     user = "toph";
-#     desktop.hyprland.enable = true;
+#     desktop.niri.enable = true;
 #     greeter.type = "dms";
 #   };
 #

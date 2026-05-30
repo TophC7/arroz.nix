@@ -1,4 +1,4 @@
-# DMS Greeter - niri as greeter compositor for niri, sway for hyprland
+# DMS Greeter - niri as greeter compositor
 {
   arrozInputs,
   config,
@@ -13,14 +13,10 @@ let
   system = pkgs.stdenv.hostPlatform.system;
 
   hasNiri = desktop.niri.enable or false;
-  hasHyprland = desktop.hyprland.enable or false;
   hasGnome = desktop.gnome.enable or false;
-
-  dmsCompositor = if hasNiri then "niri" else "sway";
 
   niriPackage = arrozInputs.niri.packages.${system}.niri-unstable;
   sessionCommands = {
-    hyprland = config._hyprlandSession.command;
     niri = "${niriPackage}/bin/niri-session";
   };
 
@@ -31,8 +27,8 @@ in
   imports = [ arrozInputs.dankMaterialShell.nixosModules.greeter ];
   assertions = [
     {
-      assertion = hasNiri || hasHyprland;
-      message = "DMS greeter requires Hyprland or Niri. Enable: desktop.hyprland.enable or desktop.niri.enable";
+      assertion = hasNiri;
+      message = "DMS greeter requires Niri. Enable: desktop.niri.enable";
     }
     {
       assertion = !hasGnome;
@@ -42,7 +38,7 @@ in
 
   programs.dank-material-shell.greeter = {
     enable = lib.mkDefault true;
-    compositor.name = lib.mkDefault dmsCompositor;
+    compositor.name = lib.mkDefault "niri";
   };
 
   services.greetd.settings = lib.mkIf (greeter.autoLogin or false) {
@@ -52,6 +48,4 @@ in
     };
   };
 
-  # Sway needed as greeter compositor when Hyprland is the desktop
-  environment.systemPackages = lib.mkIf hasHyprland [ pkgs.sway ];
 }

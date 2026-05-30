@@ -28,6 +28,7 @@ in
       window-height = lib.mkDefault 45;
       window-width = lib.mkDefault 145;
       window-inherit-working-directory = lib.mkDefault true;
+      adjust-cell-height = 1;
     };
   };
 

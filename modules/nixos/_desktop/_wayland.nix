@@ -1,6 +1,6 @@
 # Shared Wayland Compositor Configuration
 #
-# Common infrastructure for Wayland compositors (Hyprland, Niri).
+# Common infrastructure for Wayland compositors (Niri).
 # Includes: audio, networking, DDC, polkit, keyring, fonts, etc.
 #
 {

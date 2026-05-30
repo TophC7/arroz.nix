@@ -15,10 +15,7 @@ let
   cfg = config.theme;
 
   desktop = host.desktop or { };
-  needsDmsShell = lib.any (name: desktop.${name}.enable or false) [
-    "hyprland"
-    "niri"
-  ];
+  needsDmsShell = desktop.niri.enable or false;
 
   # Dank16 terminal themes — only when DMS is active and base16 scheme exists
   dank16Lib = (import ../../../lib/dank16.nix { inherit lib; }).dank16;
