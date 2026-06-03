@@ -7,6 +7,8 @@
   ...
 }:
 let
+  system = pkgs.stdenv.hostPlatform.system;
+
   mkPlugin =
     {
       pname,
@@ -98,4 +100,6 @@ in
     homepage = "https://github.com/titeya/dms-claudecode";
     license = lib.licenses.mit;
   };
+
+  ankerC200Plugin = arrozInputs.anker-c200.packages.${system}.ankerC200;
 }

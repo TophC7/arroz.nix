@@ -26,6 +26,7 @@ in
 
   home.packages = with pkgs; [
     amdgpu_top
+    arrozInputs.anker-c200.packages.${system}.anker-c200
     cliphist
     curl
     jq
@@ -86,6 +87,10 @@ in
       claudeCodeUsage = {
         enable = lib.mkDefault true;
         src = plugins.claudeCodeUsagePlugin;
+      };
+      ankerC200 = {
+        enable = lib.mkDefault true;
+        src = plugins.ankerC200Plugin;
       };
     };
   }

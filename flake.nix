@@ -94,6 +94,11 @@
       flake = false;
     };
 
+    anker-c200 = {
+      url = "git+https://git.ryot.foo/toph/anker-powerconf-c200-linux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ## Niri Ecosystem ##
 
     niri = {
