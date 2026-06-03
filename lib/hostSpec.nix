@@ -33,12 +33,16 @@
         enable = lib.mkEnableOption "Niri scrolling Wayland compositor";
         default = lib.mkEnableOption "Niri as the default/primary session";
         dms = {
-          includeBinds = lib.mkEnableOption "include DMS binds config (dms/binds.kdl)";
-          includeColors = lib.mkEnableOption "include DMS colors config (dms/colors.kdl)";
-          includeLayout = lib.mkEnableOption "include DMS layout config (dms/layout.kdl)";
-          includeOutputs = lib.mkEnableOption "include DMS outputs config (dms/outputs.kdl)";
-          includeRecents = lib.mkEnableOption "include DMS recents config (dms/alttab.kdl)";
-          includeWpblur = lib.mkEnableOption "include DMS wallpaper blur config (dms/wpblur.kdl)";
+          includes = {
+            alttab = lib.mkEnableOption "DMS-managed Niri Alt-Tab/recent-windows config";
+            binds = lib.mkEnableOption "DMS-managed Niri keybindings";
+            colors = lib.mkEnableOption "DMS-managed Niri colors";
+            cursor = lib.mkEnableOption "DMS-managed Niri cursor config";
+            layout = lib.mkEnableOption "DMS-managed Niri layout config";
+            outputs = lib.mkEnableOption "DMS-managed Niri monitor outputs config";
+            windowrules = lib.mkEnableOption "DMS-managed Niri window rules";
+            wpblur = lib.mkEnableOption "DMS-managed Niri wallpaper blur config";
+          };
         };
       };
     };

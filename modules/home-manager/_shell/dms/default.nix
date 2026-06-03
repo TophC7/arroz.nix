@@ -24,9 +24,20 @@ in
     QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
   };
 
+  home.packages = with pkgs; [
+    amdgpu_top
+    cliphist
+    curl
+    jq
+    wl-clipboard
+  ];
+
   programs.dank-material-shell = {
     enable = lib.mkDefault true;
     quickshell.package = arrozInputs.quickshell.packages.${system}.default;
+
+    # DMS runtime owns mutable JSON state/settings, including plugin_settings.json.
+    managePluginSettings = lib.mkDefault false;
 
     # Systemd integration for DMS
     systemd = {
@@ -52,13 +63,29 @@ in
         enable = lib.mkDefault true;
         src = plugins.easyEffectsPlugin;
       };
-      displaySettings = {
+      quickTote = {
         enable = lib.mkDefault true;
-        src = plugins.displaySettingsPlugin;
+        src = plugins.quickTotePlugin;
       };
-      nixMonitor = {
+      clipboardPlus = {
         enable = lib.mkDefault true;
-        src = plugins.nixMonitorPlugin;
+        src = plugins.clipboardPlusPlugin;
+      };
+      githubHeatmapRevive = {
+        enable = lib.mkDefault true;
+        src = plugins.githubHeatmapPlugin;
+      };
+      amdGpuMonitorRevive = {
+        enable = lib.mkDefault true;
+        src = plugins.amdGpuMonitorPlugin;
+      };
+      catWidget = {
+        enable = lib.mkDefault true;
+        src = plugins.catWidgetPlugin;
+      };
+      claudeCodeUsage = {
+        enable = lib.mkDefault true;
+        src = plugins.claudeCodeUsagePlugin;
       };
     };
   }

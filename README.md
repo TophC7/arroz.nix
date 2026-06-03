@@ -75,6 +75,16 @@ mix.hosts.myhost = {
 
   desktop.niri.enable = true;
   desktop.niri.default = false;
+  desktop.niri.dms.includes = {
+    alttab = true;
+    binds = true;
+    colors = true;
+    cursor = true;
+    layout = true;
+    outputs = true;
+    windowrules = true;
+    wpblur = true;
+  };
 
   # Greeter
   greeter.type = "dms";       # "gdm" | "dms" | "tuigreet" | null

@@ -1,5 +1,5 @@
 # Niri keybindings
-# Skipped when DMS manages binds (host.desktop.niri.dms.includeBinds)
+# Skipped when DMS manages binds (host.desktop.niri.dms.includes.binds = true)
 {
   config,
   lib,
@@ -10,6 +10,16 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   vicinae = arrozInputs.vicinae.packages.${system}.default;
+  dmsIpc =
+    target: function: args:
+    [
+      "dms"
+      "ipc"
+      "call"
+      target
+      function
+    ]
+    ++ args;
 in
 {
   programs.niri = lib.mkIf (!config.arroz.niri.dms.includeBinds) {
@@ -30,26 +40,11 @@ in
           "toggle"
         ]; # Application launcher
 
-        "Mod+A".action.spawn = [
-          "dms"
-          "ipc"
-          "notifications"
-          "toggle"
-        ]; # Notification center
+        "Mod+A".action.spawn = dmsIpc "notifications" "toggle" [ ]; # Notification center
 
-        "Mod+Comma".action.spawn = [
-          "dms"
-          "ipc"
-          "settings"
-          "toggle"
-        ]; # Settings
+        "Mod+Comma".action.spawn = dmsIpc "settings" "toggle" [ ]; # Settings
 
-        "Mod+M".action.spawn = [
-          "dms"
-          "ipc"
-          "processlist"
-          "toggle"
-        ]; # Process list (system monitor)
+        "Mod+M".action.spawn = dmsIpc "processlist" "focusOrToggle" [ ]; # Process list (system monitor)
 
         "Mod+V".action.spawn = [
           "${vicinae}"
@@ -61,26 +56,11 @@ in
           "vicinae://extensions/vicinae/core/search-emojis"
         ]; # Emoji search
 
-        "Mod+X".action.spawn = [
-          "dms"
-          "ipc"
-          "powermenu"
-          "toggle"
-        ]; # Power menu
+        "Mod+X".action.spawn = dmsIpc "powermenu" "toggle" [ ]; # Power menu
 
-        "Mod+P".action.spawn = [
-          "dms"
-          "ipc"
-          "notepad"
-          "toggle"
-        ]; # Notepad
+        "Mod+P".action.spawn = dmsIpc "notepad" "toggle" [ ]; # Notepad
 
-        "Mod+N".action.spawn = [
-          "dms"
-          "ipc"
-          "night"
-          "toggle"
-        ]; # Night mode
+        "Mod+N".action.spawn = dmsIpc "night" "toggle" [ ]; # Night mode
 
         # System controls
         "Ctrl+Alt+Delete".action.quit = { }; # Exit Niri
@@ -90,11 +70,7 @@ in
           "$USER"
         ];
 
-        "Mod+L".action.spawn = [
-          "dms"
-          "ipc"
-          "lock"
-        ]; # DMS lock screen
+        "Mod+L".action.spawn = dmsIpc "lock" "lock" [ ]; # DMS lock screen
 
         "Mod+Shift+A".action.toggle-overview = { };
         "Mod+F1".action.show-hotkey-overlay = { };
@@ -137,35 +113,13 @@ in
         "Super+Print".action.screenshot-window = { };
 
         # Media controls (DMS)
-        "XF86AudioRaiseVolume".action.spawn = [
-          "dms"
-          "ipc"
-          "audio"
-          "increment"
-          "3"
-        ];
+        "XF86AudioRaiseVolume".action.spawn = dmsIpc "audio" "increment" [ "3" ];
 
-        "XF86AudioLowerVolume".action.spawn = [
-          "dms"
-          "ipc"
-          "audio"
-          "decrement"
-          "3"
-        ];
+        "XF86AudioLowerVolume".action.spawn = dmsIpc "audio" "decrement" [ "3" ];
 
-        "XF86AudioMute".action.spawn = [
-          "dms"
-          "ipc"
-          "audio"
-          "mute"
-        ];
+        "XF86AudioMute".action.spawn = dmsIpc "audio" "mute" [ ];
 
-        "XF86AudioMicMute".action.spawn = [
-          "dms"
-          "ipc"
-          "audio"
-          "micmute"
-        ];
+        "XF86AudioMicMute".action.spawn = dmsIpc "audio" "micmute" [ ];
 
         # Media player controls
         "XF86AudioPlay".action.spawn = [
@@ -184,20 +138,12 @@ in
         ];
 
         # Brightness controls (DMS)
-        "XF86MonBrightnessUp".action.spawn = [
-          "dms"
-          "ipc"
-          "brightness"
-          "increment"
+        "XF86MonBrightnessUp".action.spawn = dmsIpc "brightness" "increment" [
           "5"
           ""
         ];
 
-        "XF86MonBrightnessDown".action.spawn = [
-          "dms"
-          "ipc"
-          "brightness"
-          "decrement"
+        "XF86MonBrightnessDown".action.spawn = dmsIpc "brightness" "decrement" [
           "5"
           ""
         ];

@@ -18,9 +18,34 @@
 }:
 let
   dms = host.desktop.niri.dms or { };
+  dmsIncludes = dms.includes or { };
+  dmsIncludeOrder = [
+    "alttab"
+    "binds"
+    "colors"
+    "cursor"
+    "layout"
+    "outputs"
+    "windowrules"
+    "wpblur"
+  ];
+  dmsFilesToInclude = builtins.filter (name: dmsIncludes.${name} or false) dmsIncludeOrder;
+  includesDmsFile = name: lib.elem name dmsFilesToInclude;
   playerctl = lib.getExe pkgs.playerctl;
   system = pkgs.stdenv.hostPlatform.system;
   vicinae = arrozInputs.vicinae.packages.${system}.default;
+
+  ensureDmsFile =
+    name:
+    if name == "binds" then
+      ''
+        [ -f "$HOME/.config/niri/dms/binds.kdl" ] || cp ${bindsPlaceholder} "$HOME/.config/niri/dms/binds.kdl"
+      ''
+    else
+      ''
+        [ -f "$HOME/.config/niri/dms/${name}.kdl" ] || touch "$HOME/.config/niri/dms/${name}.kdl"
+      '';
+  ensureDmsFiles = lib.concatMapStringsSep "\n" ensureDmsFile dmsFilesToInclude;
 
   # DMS keybinds KDL content
   # These are Nix-generated defaults that DMS can override at runtime
@@ -35,13 +60,13 @@ let
         Ctrl+Alt+Escape { spawn "loginctl" "terminate-user" "$USER"; }
 
         // DMS controls
-        Mod+A { spawn "dms" "ipc" "notifications" "toggle"; }
-        Mod+Comma { spawn "dms" "ipc" "settings" "toggle"; }
-        Mod+L { spawn "dms" "ipc" "lock"; }
-        Mod+M { spawn "dms" "ipc" "processlist" "toggle"; }
-        Mod+N { spawn "dms" "ipc" "night" "toggle"; }
-        Mod+P { spawn "dms" "ipc" "notepad" "toggle"; }
-        Mod+X { spawn "dms" "ipc" "powermenu" "toggle"; }
+        Mod+A { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+        Mod+Comma { spawn "dms" "ipc" "call" "settings" "toggle"; }
+        Mod+L { spawn "dms" "ipc" "call" "lock" "lock"; }
+        Mod+M { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
+        Mod+N { spawn "dms" "ipc" "call" "night" "toggle"; }
+        Mod+P { spawn "dms" "ipc" "call" "notepad" "toggle"; }
+        Mod+X { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
 
         // Application launchers
         Mod+E { spawn "${lib.getExe pkgs.vscode}"; }
@@ -93,10 +118,10 @@ let
         Super+Print { screenshot-window; }
 
         // Media controls (DMS audio)
-        XF86AudioRaiseVolume { spawn "dms" "ipc" "audio" "increment" "3"; }
-        XF86AudioLowerVolume { spawn "dms" "ipc" "audio" "decrement" "3"; }
-        XF86AudioMute { spawn "dms" "ipc" "audio" "mute"; }
-        XF86AudioMicMute { spawn "dms" "ipc" "audio" "micmute"; }
+        XF86AudioRaiseVolume { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
+        XF86AudioLowerVolume { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+        XF86AudioMute { spawn "dms" "ipc" "call" "audio" "mute"; }
+        XF86AudioMicMute { spawn "dms" "ipc" "call" "audio" "micmute"; }
 
         // Media player controls
         XF86AudioPlay { spawn "${playerctl}" "play-pause"; }
@@ -104,57 +129,57 @@ let
         XF86AudioPrev { spawn "${playerctl}" "previous"; }
 
         // Brightness controls (DMS)
-        XF86MonBrightnessUp { spawn "dms" "ipc" "brightness" "increment" "5" ""; }
-        XF86MonBrightnessDown { spawn "dms" "ipc" "brightness" "decrement" "5" ""; }
+        XF86MonBrightnessUp { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+        XF86MonBrightnessDown { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
     }
   '';
 in
 {
   # Export flags so other modules can check what's DMS-managed
   options.arroz.niri.dms = {
+    filesToInclude = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = dmsFilesToInclude;
+      internal = true;
+      description = "DMS-generated Niri config files included by arroz";
+    };
     includeColors = lib.mkOption {
       type = lib.types.bool;
-      default = dms.includeColors or false;
+      default = includesDmsFile "colors";
       internal = true;
       description = "Use DMS colors instead of arroz matugen colors";
     };
     includeLayout = lib.mkOption {
       type = lib.types.bool;
-      default = dms.includeLayout or false;
+      default = includesDmsFile "layout";
       internal = true;
       description = "Use DMS layout instead of arroz layout settings";
     };
     includeBinds = lib.mkOption {
       type = lib.types.bool;
-      default = dms.includeBinds or false;
+      default = includesDmsFile "binds";
       internal = true;
       description = "Use DMS binds instead of arroz keybindings";
     };
     includeRecents = lib.mkOption {
       type = lib.types.bool;
-      default = dms.includeRecents or false;
+      default = includesDmsFile "alttab";
       internal = true;
-      description = "Use DMS recents instead of arroz recent-windows config";
+      description = "Use DMS alttab instead of arroz recent-windows config";
     };
     includeOutputs = lib.mkOption {
       type = lib.types.bool;
-      default = dms.includeOutputs or false;
+      default = includesDmsFile "outputs";
       internal = true;
       description = "Include DMS outputs config for monitor management";
     };
-    includeWpblur = lib.mkOption {
-      type = lib.types.bool;
-      default = dms.includeWpblur or false;
-      internal = true;
-      description = "Include DMS wallpaper blur config";
-    };
   };
 
-  # Create DMS keybinds file only if it doesn't exist (preserves user edits)
-  config.home.activation = lib.mkIf config.arroz.niri.dms.includeBinds {
-    createDmsBindsKdl = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  # Seed included files only when missing so Niri can start before DMS generates runtime config.
+  config.home.activation = lib.mkIf (config.arroz.niri.dms.filesToInclude != [ ]) {
+    createDmsNiriIncludes = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p "$HOME/.config/niri/dms"
-      [ -f "$HOME/.config/niri/dms/binds.kdl" ] || cp ${bindsPlaceholder} "$HOME/.config/niri/dms/binds.kdl"
+      ${ensureDmsFiles}
     '';
   };
 }

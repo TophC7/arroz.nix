@@ -234,35 +234,31 @@
       target = "niri/config.kdl";
       text =
         let
-          # Colors: arroz/colors.kdl or dms/colors.kdl
-          colorsInclude =
-            if config.arroz.niri.dms.includeColors then
-              ''include "dms/colors.kdl"''
-            else
-              ''include "arroz/colors.kdl"'';
+          dmsFilesToInclude = config.arroz.niri.dms.filesToInclude;
+          includesDmsFile = name: lib.elem name dmsFilesToInclude;
+          includeDmsFile = name: ''include "dms/${name}.kdl"'';
 
-          # Recents: arroz/recents.kdl or dms/alttab.kdl
-          recentsInclude =
-            if config.arroz.niri.dms.includeRecents then
-              ''include "dms/alttab.kdl"''
-            else
-              ''include "arroz/recents.kdl"'';
+          dmsIncludes = lib.pipe dmsFilesToInclude [
+            (map includeDmsFile)
+            (builtins.concatStringsSep "\n")
+          ];
 
-          # DMS-only includes (only when enabled)
-          layoutInclude = lib.optionalString config.arroz.niri.dms.includeLayout ''include "dms/layout.kdl"'';
-          bindsInclude = lib.optionalString config.arroz.niri.dms.includeBinds ''include "dms/binds.kdl"'';
-          outputsInclude = lib.optionalString config.arroz.niri.dms.includeOutputs ''include "dms/outputs.kdl"'';
-          wpblurInclude = lib.optionalString config.arroz.niri.dms.includeWpblur ''include "dms/wpblur.kdl"'';
+          fallbackIncludes =
+            lib.pipe
+              [
+                (lib.optional (!includesDmsFile "colors") ''include "arroz/colors.kdl"'')
+                (lib.optional (!includesDmsFile "alttab") ''include "arroz/recents.kdl"'')
+              ]
+              [
+                lib.flatten
+                (builtins.concatStringsSep "\n")
+              ];
         in
         ''
           ${config.programs.niri.finalConfig}
 
-          ${bindsInclude}
-          ${colorsInclude}
-          ${layoutInclude}
-          ${outputsInclude}
-          ${recentsInclude}
-          ${wpblurInclude}
+          ${fallbackIncludes}
+          ${dmsIncludes}
         '';
     };
   };

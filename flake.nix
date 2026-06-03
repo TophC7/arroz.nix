@@ -64,6 +64,36 @@
       flake = false;
     };
 
+    dms-quick-tote = {
+      url = "github:JDKamalakar/DMS-Quick_Tote";
+      flake = false;
+    };
+
+    dms-clipboard-plus = {
+      url = "github:Dadangdut33/dms-plugins";
+      flake = false;
+    };
+
+    dms-github-heatmap = {
+      url = "github:JDKamalakar/DMS-GitHub_HeatMap";
+      flake = false;
+    };
+
+    dms-amd-gpu-monitor = {
+      url = "github:JDKamalakar/DMS-AMD_GPU_Monitor_Revive";
+      flake = false;
+    };
+
+    dms-cat-widget = {
+      url = "github:xi-ve/cat-dms";
+      flake = false;
+    };
+
+    dms-claude-code = {
+      url = "github:titeya/dms-claudecode";
+      flake = false;
+    };
+
     ## Niri Ecosystem ##
 
     niri = {

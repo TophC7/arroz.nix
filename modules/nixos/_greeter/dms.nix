@@ -39,6 +39,7 @@ in
   programs.dank-material-shell.greeter = {
     enable = lib.mkDefault true;
     compositor.name = lib.mkDefault "niri";
+    configHome = lib.mkDefault "/home/${host.user.name}";
   };
 
   services.greetd.settings = lib.mkIf (greeter.autoLogin or false) {

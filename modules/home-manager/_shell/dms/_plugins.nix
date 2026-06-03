@@ -50,20 +50,52 @@ in
     license = lib.licenses.gpl3Only;
   };
 
-  displaySettingsPlugin = mkPlugin {
-    pname = "dms-display-settings";
-    src = arrozInputs.dms-display-settings;
-    subdir = "displaySettings";
-    description = "DankMaterialShell display settings plugin for screen management";
-    homepage = "https://github.com/Lucyfire/dms-plugins";
+  quickTotePlugin = mkPlugin {
+    pname = "dms-quick-tote";
+    src = arrozInputs.dms-quick-tote;
+    description = "DankMaterialShell Quick Tote plugin for pinned files, downloads, and screenshots";
+    homepage = "https://github.com/JDKamalakar/DMS-Quick_Tote";
     license = lib.licenses.mit;
   };
 
-  nixMonitorPlugin = mkPlugin {
-    pname = "dms-nix-monitor";
-    src = arrozInputs.dms-nix-monitor;
-    description = "DankMaterialShell Nix update monitor widget";
-    homepage = "https://github.com/antonjah/nix-monitor";
+  clipboardPlusPlugin = mkPlugin {
+    pname = "dms-clipboard-plus";
+    src = arrozInputs.dms-clipboard-plus;
+    subdir = "ClipboardPlus";
+    description = "DankMaterialShell advanced clipboard manager plugin";
+    homepage = "https://github.com/Dadangdut33/dms-plugins/tree/master/ClipboardPlus";
+    license = lib.licenses.mit;
+  };
+
+  githubHeatmapPlugin = mkPlugin {
+    pname = "dms-github-heatmap";
+    src = arrozInputs.dms-github-heatmap;
+    description = "DankMaterialShell GitHub contribution heatmap plugin";
+    homepage = "https://github.com/JDKamalakar/DMS-GitHub_HeatMap";
+    license = lib.licenses.mit;
+  };
+
+  amdGpuMonitorPlugin = mkPlugin {
+    pname = "dms-amd-gpu-monitor";
+    src = arrozInputs.dms-amd-gpu-monitor;
+    description = "DankMaterialShell AMD GPU monitor plugin";
+    homepage = "https://github.com/JDKamalakar/DMS-AMD_GPU_Monitor_Revive";
+    license = lib.licenses.mit;
+  };
+
+  catWidgetPlugin = mkPlugin {
+    pname = "dms-cat-widget";
+    src = arrozInputs.dms-cat-widget;
+    description = "DankMaterialShell animated CPU cat widget plugin";
+    homepage = "https://github.com/xi-ve/cat-dms";
+    license = lib.licenses.mit;
+  };
+
+  claudeCodeUsagePlugin = mkPlugin {
+    pname = "dms-claude-code-usage";
+    src = arrozInputs.dms-claude-code;
+    description = "DankMaterialShell Claude Code usage monitor plugin";
+    homepage = "https://github.com/titeya/dms-claudecode";
     license = lib.licenses.mit;
   };
 }
