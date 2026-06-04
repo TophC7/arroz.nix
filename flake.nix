@@ -89,9 +89,9 @@
       flake = false;
     };
 
-    dms-claude-code = {
-      url = "github:titeya/dms-claudecode";
-      flake = false;
+    dms-plugins = {
+      url = "git+https://git.ryot.foo/toph/dms-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     anker-c200 = {

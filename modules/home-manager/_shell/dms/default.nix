@@ -84,9 +84,9 @@ in
         enable = lib.mkDefault true;
         src = plugins.catWidgetPlugin;
       };
-      claudeCodeUsage = {
+      aiUsage = {
         enable = lib.mkDefault true;
-        src = plugins.claudeCodeUsagePlugin;
+        src = plugins.aiUsagePlugin;
       };
       ankerC200 = {
         enable = lib.mkDefault true;

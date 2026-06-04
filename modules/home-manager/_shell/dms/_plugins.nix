@@ -93,13 +93,7 @@ in
     license = lib.licenses.mit;
   };
 
-  claudeCodeUsagePlugin = mkPlugin {
-    pname = "dms-claude-code-usage";
-    src = arrozInputs.dms-claude-code;
-    description = "DankMaterialShell Claude Code usage monitor plugin";
-    homepage = "https://github.com/titeya/dms-claudecode";
-    license = lib.licenses.mit;
-  };
+  aiUsagePlugin = arrozInputs.dms-plugins.packages.${system}.aiUsage;
 
   ankerC200Plugin = arrozInputs.anker-c200.packages.${system}.ankerC200;
 }
