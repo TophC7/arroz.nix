@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780520415,
-        "narHash": "sha256-2gSluUjxbf8+DOyomyToqWc5WDnApj1+XID6ndPieY0=",
+        "lastModified": 1780535140,
+        "narHash": "sha256-7DY5MLUYDF92HDoYnP3XotJg9I66r5e5/v3ois3k6oA=",
         "ref": "refs/heads/main",
-        "rev": "c00e8b87ed54a4678d2c3ddc71adc032581c54eb",
-        "revCount": 3,
+        "rev": "6bb7807e5446c78e85e330feecff6d8bd3ad3884",
+        "revCount": 4,
         "type": "git",
         "url": "https://git.ryot.foo/toph/anker-powerconf-c200-linux"
       },
@@ -128,11 +128,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780498191,
-        "narHash": "sha256-BuvJ6IfRxx552EoK/MHa1HMipObiBXNSrqHfPNXb4rQ=",
+        "lastModified": 1780531574,
+        "narHash": "sha256-DngmgE5GUbqFzZnnCrM2Z6lGNDGkSfXvNVUhPZSLjgY=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "e5fff91ae66fa44379ffe31f25ed8cf5c6807d67",
+        "rev": "59431869dc14ab1cb2d05bbbf81839d95e4724cd",
         "type": "github"
       },
       "original": {
