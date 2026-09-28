@@ -1,9 +1,22 @@
+> [!CAUTION]
+>
+> ## Deprecated
+>
+> This project is no longer maintained. It has moved to
+> [dot.nix](https://github.com/tophc7/dot.nix) at [`modules/features/desktop/`](https://github.com/tophc7/dot.nix/tree/main/modules/features/desktop/).
+>
+> The desktop configs now live in dot.nix entirely; the overhead of another repo was not needed.
+>
+> The code stays here for reference and receives no further updates.
+
+---
+
 <h1>
   <picture>
     <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/2744_fe0f/512.webp" type="image/webp">
     <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2744_fe0f/512.gif" alt="❄" width="32" height="32">
   </picture>
-  arroz.nix (WIP)
+  arroz.nix
 </h1>
 
 > **Desktop environment extension for [mix.nix](https://github.com/TophC7/mix.nix)**
